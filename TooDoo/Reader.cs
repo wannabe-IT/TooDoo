@@ -15,7 +15,7 @@ public class Reader
         line = reader.ReadLine();
         while (line != null)
         {
-            todo = new Todo(); //creating new object todo
+            todo = new Todo();
             todo.FromString(line);
             todosFromFile.Add(todo); //object is added into list of objects
             line = reader.ReadLine();
