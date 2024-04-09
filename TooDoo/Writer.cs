@@ -2,28 +2,26 @@ namespace TooDoo;
 
 public class Writer
 {
+    Menu menu = new Menu();
+
     public void WriteReadedTodos(List<Todo> todos)
     {
-        foreach (Todo todo in todos)
+        for (int i = 0; i < todos.Count; i++)
         {
-            if (!todo.IsDone)
-            {
-                Console.WriteLine(todo.ToString());
-            }
+            Todo todo = todos[i];
+            Console.WriteLine(todo.ToString());
         }
+    }
+    public void WriteUpdatedIndexes(List<Todo> todos)
+    {
+        for (int i = 0; i < todos.Count; i++)
+        {
+            Todo todo = todos[i];
+            todo.Index = i + 1;
+        }
+        WriteTodosToFile(todos, menu.fullPath);
     }
     
-    public void WriteReadedTodosDone(List<Todo> todos)
-    {
-        foreach (Todo todo in todos)
-        {
-            if (todo.IsDone)
-            {
-                Console.WriteLine(todo.ToString());
-            }
-        }
-    }
-
     public void WriteTodosToFile(List<Todo> todos, string pathToFile)
     {
         using StreamWriter writer = new StreamWriter(pathToFile);

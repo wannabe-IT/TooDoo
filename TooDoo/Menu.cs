@@ -3,15 +3,10 @@ namespace TooDoo;
 public class Menu
 {
     public string fullPath;
-    //public string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
     public string projectDirectory;
-    public string fileName = "Todos.txt";
-    public List<Todo> Todos;
+    public string fileName;
     public Writer ConsoleOutput;
     public Reader ConsoleInput;
-    
-    //public Editor Edit;
-    //public Remover Remove;
 
     public Menu()
     {
@@ -23,15 +18,13 @@ public class Menu
     {
         ConsoleInput = new Reader();
         ConsoleOutput = new Writer();
-        //Edit = new Editor();
-        //Remove = new Remover();
-        //ConsoleInput.CheckSourceFile(fullPath);
-        //Todos = ConsoleInput.ReadTodosFromFile(fullPath);
 
         bool flag = true;
         while (flag)
         {
+            ConsoleInput.todosCounter();
             List<Todo> todosFromFile = ConsoleInput.ReadTodosFromFile(fullPath);
+            ConsoleOutput.WriteUpdatedIndexes(todosFromFile);
 
             Console.Clear();
             Console.WriteLine("1. List tasks");
@@ -45,6 +38,7 @@ public class Menu
             switch (answer)
             {
                 case "1":
+                    ConsoleOutput.WriteUpdatedIndexes(todosFromFile);
                     bool flag2 = true;
                     while (flag2)
                     {
@@ -65,7 +59,6 @@ public class Menu
                                 break;
                             case "2":
                                 Console.Clear();
-                                ConsoleOutput.WriteReadedTodosDone(todosFromFile);
                                 Console.Write("Press any key to continue...");
                                 Console.ReadKey();
                                 break;
@@ -77,6 +70,7 @@ public class Menu
                                 Console.Write("Invalid option! Press any key to continue...");
                                 break;
                         }
+                        ConsoleInput.todosCounter();
                     }
                     break;
                     
