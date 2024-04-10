@@ -12,14 +12,14 @@ public class Writer
             Console.WriteLine(todo.ToString());
         }
     }
-    public void WriteUpdatedIndexes(List<Todo> todos)
+    public void WriteUpdatedIndexes(List<Todo> todos, string pathToFile)
     {
         for (int i = 0; i < todos.Count; i++)
         {
             Todo todo = todos[i];
             todo.Index = i + 1;
         }
-        WriteTodosToFile(todos, menu.fullPath);
+        WriteTodosToFile(todos, pathToFile);
     }
     
     public void WriteTodosToFile(List<Todo> todos, string pathToFile)

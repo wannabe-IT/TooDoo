@@ -5,11 +5,12 @@ public class Reader
     Writer writer = new Writer();
     Menu menu = new Menu();
     Todo todo = new Todo();
+    Todo doneTodo = new Todo();
 
-    public int todosCounter()
+    public int todosCounter(string pathToFile)
     {
         int todosCount = 0;
-        using StreamReader reader = new StreamReader(Path.Combine(menu.fullPath));
+        using StreamReader reader = new StreamReader(Path.Combine(pathToFile));
         while (reader.ReadLine() != null)
         {
             todosCount++;
@@ -35,8 +36,8 @@ public class Reader
         }
         return todosFromFile;
     }
-
-    public void ReadTodosFromConsole()
+    
+    public void ReadTodosFromConsole(string pathToFile)
     {
         int priority;
         string title, description, priorityInput = string.Empty;
@@ -79,9 +80,9 @@ public class Reader
             if (string.Equals(answer, "n", StringComparison.OrdinalIgnoreCase))
             {
                 Todo newTodo = new Todo(title, description, false, priority,todo.Index + 1);
-                List<Todo> todos = ReadTodosFromFile(menu.fullPath);
+                List<Todo> todos = ReadTodosFromFile(pathToFile);
                 todos.Add(newTodo);
-                writer.WriteTodosToFile(todos, menu.fullPath);
+                writer.WriteTodosToFile(todos, pathToFile);
                 break;
             }
         }

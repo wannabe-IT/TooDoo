@@ -3,8 +3,7 @@ namespace TooDoo;
 public class Editor
 {
     Writer writer = new();
-    Menu menu = new();
-    public void EditTodo(List<Todo> todo)
+    public void EditTodo(List<Todo> todo, string pathToFile)
     {
         bool flag = true;
         while (flag)
@@ -58,7 +57,7 @@ public class Editor
                                     if (!string.IsNullOrEmpty(title))
                                     {
                                         todo[index - 1].Title = title;
-                                        writer.WriteTodosToFile(todo, menu.fullPath);
+                                        writer.WriteTodosToFile(todo, pathToFile);
                                         break;
                                     }
                                     Console.Clear();
@@ -76,7 +75,7 @@ public class Editor
                                     if (!string.IsNullOrEmpty(description))
                                     {
                                         todo[index - 1].Description = description;
-                                        writer.WriteTodosToFile(todo, menu.fullPath);
+                                        writer.WriteTodosToFile(todo, pathToFile);
                                         break;
                                     }
                                     Console.Clear();
@@ -107,7 +106,7 @@ public class Editor
                                 Console.Clear();
                                 Console.WriteLine("Mark as done? (y/n)");
                                 todo[index - 1].IsDone = Console.ReadLine().ToLower() == "y";
-                                writer.WriteTodosToFile(todo, menu.fullPath);
+                                writer.WriteTodosToFile(todo, pathToFile);
                                 Console.Clear();
                                 Console.WriteLine("Press any key to continue...");
                                 Console.ReadKey();

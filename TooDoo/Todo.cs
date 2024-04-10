@@ -21,7 +21,7 @@ public class Todo
         Priority = 0;
         Title = string.Empty;
         Description = string.Empty;
-        IsDone = false;
+        //IsDone = false;
         Index = 0;
     }
     
