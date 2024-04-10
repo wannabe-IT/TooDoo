@@ -7,6 +7,7 @@ public class Menu
     public string fileName;
     public Writer ConsoleOutput;
     public Reader ConsoleInput;
+    public Editor ConsoleEditor;
 
     public Menu()
     {
@@ -18,6 +19,7 @@ public class Menu
     {
         ConsoleInput = new Reader();
         ConsoleOutput = new Writer();
+        ConsoleEditor = new Editor();
 
         bool flag = true;
         while (flag)
@@ -39,7 +41,13 @@ public class Menu
             {
                 case "1":
                     ConsoleOutput.WriteUpdatedIndexes(todosFromFile);
-                    bool flag2 = true;
+                    Console.Clear();
+                    ConsoleOutput.WriteReadedTodos(todosFromFile);
+                    Console.Write("Press any key to continue...");
+                    Console.ReadKey();
+                    
+                    //TODO: Add a new menu to show tasks done and tasks to do
+                    /*bool flag2 = true;
                     while (flag2)
                     {
                         todosFromFile = ConsoleInput.ReadTodosFromFile(fullPath);
@@ -71,13 +79,14 @@ public class Menu
                                 break;
                         }
                         ConsoleInput.todosCounter();
-                    }
+                    }*/
                     break;
                     
                 case "2":
                     ConsoleInput.ReadTodosFromConsole();
                     break;
                 case "3":
+                    ConsoleEditor.EditTodo(todosFromFile);
                     break;
                 case "4":
                     break;
