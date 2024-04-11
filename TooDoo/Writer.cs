@@ -17,7 +17,7 @@ public class Writer
         for (int i = 0; i < todos.Count; i++)
         {
             Todo todo = todos[i];
-            todo.Index = i + 1;
+            todo.UpdateIndex(i + 1);
         }
         WriteTodosToFile(todos, pathToFile);
     }

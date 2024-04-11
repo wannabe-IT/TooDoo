@@ -6,6 +6,20 @@ public class Reader
     Menu menu = new Menu();
     Todo todo = new Todo();
     Todo doneTodo = new Todo();
+    
+    public int todoLineToEdit(string pathToFile)
+    {
+        int lineToEdit;
+        while (true)
+        {
+            if (int.TryParse(Console.ReadLine(), out lineToEdit) && lineToEdit > 0 && lineToEdit <= todosCounter(pathToFile))
+            {
+                break;
+            }
+            Console.WriteLine("Invalid number. Please enter a number between 1 and " + todosCounter(pathToFile));
+        }
+        return lineToEdit;
+    }
 
     public int todosCounter(string pathToFile)
     {
@@ -15,7 +29,7 @@ public class Reader
         {
             todosCount++;
         }
-        todo.Index = todosCount;
+        todo.UpdateIndex(todosCount);
         
         return todo.Index;
     }
