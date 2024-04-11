@@ -86,6 +86,7 @@ public class Menu
                 case "4":
                     break;
                 case "5":
+                    todosFromFile = ConsoleInput.ReadTodosFromFile(pathToFile);
                     ConsoleOutput.WriteTodosToFile(todosFromFile, pathToFile);
                     Console.WriteLine("Changes saved. Exiting...");
                     flag = false;

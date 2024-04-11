@@ -3,10 +3,7 @@ namespace TooDoo;
 public class Reader
 {
     Writer writer = new Writer();
-    Menu menu = new Menu();
     Todo todo = new Todo();
-    Todo doneTodo = new Todo();
-    
     public int todoLineToEdit(string pathToFile)
     {
         int lineToEdit;
@@ -53,52 +50,49 @@ public class Reader
     
     public void ReadTodosFromConsole(string pathToFile)
     {
+        List<Todo> todos = ReadTodosFromFile(pathToFile);
+
+        do
+        {
+            string title = ReadNonEmptyInput("Write a TODO title: ", "Title cannot be empty. Please enter a valid title.");
+            string description = ReadNonEmptyInput("Write a TODO description: ", "Description cannot be empty. Please enter a valid description.");
+            int priority = ReadValidPriority();
+
+            Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1);
+            todos.Add(newTodo);
+
+            Console.WriteLine("Want to add another TODO? Y/N ");
+        } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
+
+        writer.WriteTodosToFile(todos, pathToFile);
+    }
+
+    private string ReadNonEmptyInput(string prompt, string errorMessage)
+    {
+        string input;
+        do
+        {
+            Console.WriteLine(prompt);
+            input = Console.ReadLine();
+            if (!string.IsNullOrEmpty(input)) break;
+            Console.WriteLine(errorMessage);
+        } while (true);
+
+        return input;
+    }
+
+    private int ReadValidPriority()
+    {
         int priority;
-        string title, description, priorityInput = string.Empty;
-        
         while (true)
         {
-            while (true)
+            Console.WriteLine("Write a TODO priority (1-5): ");
+            if (int.TryParse(Console.ReadLine(), out priority) && priority >= 1 && priority <= 5)
             {
-                Console.WriteLine("Write a TODO title: ");
-                title = Console.ReadLine();
-                if (!string.IsNullOrEmpty(title))
-                {
-                    break;
-                }
-                Console.WriteLine("Title cannot be empty. Please enter a valid title.");
+                return priority;
             }
-            
-            while (true)
-            {
-                Console.WriteLine("Write a TODO description: ");
-                description = Console.ReadLine();
-                if (!string.IsNullOrEmpty(description))
-                {
-                    break;
-                }
-                Console.WriteLine("Description cannot be empty. Please enter a valid description.");
-            }
-            
-            while (true)
-            {
-                Console.WriteLine("Write a TODO priority (1-5): ");
-                if (int.TryParse(Console.ReadLine(), out priority) && priority >= 1 && priority <= 5)
-                {
-                    break;
-                }
-                Console.WriteLine("Invalid priority. Please enter a number between 1 and 5.");
-            }
-            Console.WriteLine("Want to add another TODO? Y/N ");
-            string answer = Console.ReadLine();
-            if (string.Equals(answer, "n", StringComparison.OrdinalIgnoreCase))
-            {
-                Todo newTodo = new Todo(title, description, false, priority,todo.Index + 1);
-                List<Todo> todos = ReadTodosFromFile(pathToFile);
-                todos.Add(newTodo);
-                writer.WriteTodosToFile(todos, pathToFile);
-                break;
-            }
+            Console.WriteLine("Invalid priority. Please enter a number between 1 and 5.");
         }
     }
+
 }

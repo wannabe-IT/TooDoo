@@ -1,5 +1,6 @@
 namespace TooDoo;
 
+
 public class Writer
 {
     Menu menu = new Menu();
@@ -25,7 +26,8 @@ public class Writer
     public void WriteTodosToFile(List<Todo> todos, string pathToFile)
     {
         using StreamWriter writer = new StreamWriter(pathToFile);
-        foreach (Todo todo in todos)
+
+        foreach (var todo in todos)
         {
             writer.WriteLine(todo.ToStringToCsv());
         }
