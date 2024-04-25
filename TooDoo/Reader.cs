@@ -101,4 +101,12 @@ public class Reader
         }
     }
 
+    public void CheckIfTodoFileExist(string pathToFile)
+    {
+        if (!File.Exists(pathToFile))
+        {
+            File.Create(pathToFile).Close();
+        }
+    }
+
 }

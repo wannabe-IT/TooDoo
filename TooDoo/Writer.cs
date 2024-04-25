@@ -3,8 +3,6 @@ namespace TooDoo;
 
 public class Writer
 {
-    Menu menu = new Menu();
-
     public void WriteReadedTodos(List<Todo> todos)
     {
         for (int i = 0; i < todos.Count; i++)

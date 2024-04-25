@@ -20,6 +20,7 @@ public class Menu
         projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
         fileName = "todos.txt";
         pathToFile = Path.Combine(projectDirectory, fileName);
+        ConsoleInput.CheckIfTodoFileExist(pathToFile);
         List<Todo> todosFromFile = ConsoleInput.ReadTodosFromFile(pathToFile);
         ConsoleOutput.WriteUpdatedIndexes(todosFromFile, pathToFile);
         
@@ -43,7 +44,6 @@ public class Menu
                 case "1":
                     Console.Clear();
                     ConsoleOutput.WriteReadedTodos(todosFromFile);
-                    Console.WriteLine(todosFromFile.Count);
                     Console.Write("Press any key to continue...");
                     Console.ReadKey();
                     break;
