@@ -10,13 +10,15 @@ public class Menu
     public Writer ConsoleOutput;
     public Reader ConsoleInput;
     public Editor ConsoleEditor;
+    public Remover TodoRemover;
     public void ShowMenu()
     {
         ConsoleInput = new Reader();
         ConsoleOutput = new Writer();
         ConsoleEditor = new Editor();
+        TodoRemover = new Remover();
         projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        fileName = "Todos.txt";
+        fileName = "todos.txt";
         pathToFile = Path.Combine(projectDirectory, fileName);
         List<Todo> todosFromFile = ConsoleInput.ReadTodosFromFile(pathToFile);
         ConsoleOutput.WriteUpdatedIndexes(todosFromFile, pathToFile);
@@ -25,6 +27,7 @@ public class Menu
         while (flag)
         {
             ConsoleInput.todosCounter(pathToFile);
+            ConsoleOutput.WriteUpdatedIndexes(todosFromFile, pathToFile);
 
             Console.Clear();
             Console.WriteLine("1. List tasks");
@@ -40,16 +43,17 @@ public class Menu
                 case "1":
                     Console.Clear();
                     ConsoleOutput.WriteReadedTodos(todosFromFile);
+                    Console.WriteLine(todosFromFile.Count);
                     Console.Write("Press any key to continue...");
                     Console.ReadKey();
                     break;
                 case "2":
                     Console.Clear();
-                    ConsoleInput.ReadTodosFromConsole(pathToFile);
+                    ConsoleInput.ReadTodosFromConsole(todosFromFile);
                     break;
                 case "3":
                     ConsoleOutput.WriteReadedTodos(todosFromFile);
-                    Console.Write("Choose a todo to edit (enter the index):");
+                    Console.Write("Choose a todo to edit (enter the index): ");
                     int indexToEdit = ConsoleInput.todoLineToEdit(pathToFile);
                     if (indexToEdit < 1 || indexToEdit > todosFromFile.Count)
                     {
@@ -57,12 +61,12 @@ public class Menu
                     }
                     Todo todoToEdit = todosFromFile[indexToEdit - 1];
 
-                    Console.WriteLine("Choose what to edit:");
+                    Console.WriteLine("***Choose what to edit***");
                     Console.WriteLine("1. Title");
                     Console.WriteLine("2. Description");
                     Console.WriteLine("3. Priority");
                     Console.WriteLine("4. Mark as done");
-                    Console.WriteLine("Enter your choice:");
+                    Console.Write("Enter your choice: ");
                     string editChoice = Console.ReadLine();
                     switch (editChoice)
                     {
@@ -84,6 +88,17 @@ public class Menu
                     }
                     break;
                 case "4":
+                    ConsoleOutput.WriteReadedTodos(todosFromFile);
+                    Console.Write("Choose a todo to remove (enter the index): ");
+                    int indexToRemove = ConsoleInput.todoLineToEdit(pathToFile);
+                    if (indexToRemove < 1 || indexToRemove > todosFromFile.Count)
+                    {
+                        Console.WriteLine("back to menu");
+                        Console.ReadKey();
+                        break;
+                    }
+                    Todo todoToRemove = todosFromFile[indexToRemove - 1];
+                    TodoRemover.RemoveTodoByIndex(todosFromFile, todoToRemove);
                     break;
                 case "5":
                     todosFromFile = ConsoleInput.ReadTodosFromFile(pathToFile);

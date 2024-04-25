@@ -13,7 +13,7 @@ public class Reader
             {
                 break;
             }
-            Console.WriteLine("Invalid number. Please enter a number between 1 and " + todosCounter(pathToFile));
+            Console.Write("Invalid number. Please enter a number between 1 and " + todosCounter(pathToFile) + ": ");
         }
         return lineToEdit;
     }
@@ -34,28 +34,34 @@ public class Reader
     public List<Todo> ReadTodosFromFile(string pathToFile)
     {
         string? line;
-
-        List<Todo> todosFromFile = new List<Todo>(); // list of objects
+        
+        List<Todo> todosFromFile = new List<Todo>();
         using StreamReader reader = new StreamReader(Path.Combine(pathToFile));
         line = reader.ReadLine();
-        while (line != null)
+        if (line != null)
         {
-            todo = new Todo();
-            todo.FromString(line);
-            todosFromFile.Add(todo); //object is added into list of objects
-            line = reader.ReadLine();
+            while (line != null)
+            {
+                todo = new Todo();
+                todo.FromString(line);
+                todosFromFile.Add(todo);
+                line = reader.ReadLine();
+            }
+            return todosFromFile;
         }
         return todosFromFile;
     }
     
-    public void ReadTodosFromConsole(string pathToFile)
+    public void ReadTodosFromConsole(List<Todo> todos)
     {
-        List<Todo> todos = ReadTodosFromFile(pathToFile);
+        //List<Todo> todos = ReadTodosFromFile(pathToFile);
 
         do
         {
-            string title = ReadNonEmptyInput("Write a TODO title: ", "Title cannot be empty. Please enter a valid title.");
-            string description = ReadNonEmptyInput("Write a TODO description: ", "Description cannot be empty. Please enter a valid description.");
+            Console.Clear();
+            string title = ReadNonEmptyInput("Write a TODO title: ", "Title cannot be empty. Please enter a valid title...");
+            Console.Clear();
+            string description = ReadNonEmptyInput("Write a TODO description: ", "Description cannot be empty. Please enter a valid description...");
             int priority = ReadValidPriority();
 
             Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1);
@@ -64,7 +70,7 @@ public class Reader
             Console.WriteLine("Want to add another TODO? Y/N ");
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
 
-        writer.WriteTodosToFile(todos, pathToFile);
+        //writer.WriteTodosToFile(todos, pathToFile);
     }
 
     private string ReadNonEmptyInput(string prompt, string errorMessage)
@@ -86,12 +92,12 @@ public class Reader
         int priority;
         while (true)
         {
-            Console.WriteLine("Write a TODO priority (1-5): ");
+            Console.Write("Write a TODO priority (1-5): ");
             if (int.TryParse(Console.ReadLine(), out priority) && priority >= 1 && priority <= 5)
             {
                 return priority;
             }
-            Console.WriteLine("Invalid priority. Please enter a number between 1 and 5.");
+            Console.WriteLine("Invalid priority. Please enter a number between 1 and 5: ");
         }
     }
 
