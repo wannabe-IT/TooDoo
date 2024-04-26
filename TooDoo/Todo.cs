@@ -70,7 +70,6 @@ public class Todo
         return Index;
     }
     
-    
     public void FromString(string readedString)
     {
         string[] splitedString = readedString.Split(";");

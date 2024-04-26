@@ -52,40 +52,45 @@ public class Menu
                     ConsoleInput.ReadTodosFromConsole(todosFromFile);
                     break;
                 case "3":
-                    ConsoleOutput.WriteReadedTodos(todosFromFile);
-                    Console.Write("Choose a todo to edit (enter the index): ");
-                    int indexToEdit = ConsoleInput.todoLineToEdit(pathToFile);
-                    if (indexToEdit < 1 || indexToEdit > todosFromFile.Count)
+                    bool stopEdit = ConsoleInput.CheckIfAnyTodoIsInFile(todosFromFile);
+                    if (stopEdit)
                     {
-                        break;
-                    }
-                    Todo todoToEdit = todosFromFile[indexToEdit - 1];
+                        ConsoleOutput.WriteReadedTodos(todosFromFile);
+                        Console.Write("Choose a todo to edit (enter the index): ");
+                        int indexToEdit = ConsoleInput.todoLineToEdit(pathToFile);
+                        if (indexToEdit < 1 || indexToEdit > todosFromFile.Count)
+                        {
+                            break;
+                        }
+                        Todo todoToEdit = todosFromFile[indexToEdit - 1];
 
-                    Console.WriteLine("***Choose what to edit***");
-                    Console.WriteLine("1. Title");
-                    Console.WriteLine("2. Description");
-                    Console.WriteLine("3. Priority");
-                    Console.WriteLine("4. Mark as done");
-                    Console.Write("Enter your choice: ");
-                    string editChoice = Console.ReadLine();
-                    switch (editChoice)
-                    {
-                        case "1":
-                            ConsoleEditor.EditTodoTitle(todoToEdit);
-                            break;
-                        case "2":
-                            ConsoleEditor.EditTodoDescription(todoToEdit);
-                            break;
-                        case "3":
-                            ConsoleEditor.EditTodoPriority(todoToEdit);
-                            break;
-                        case "4":
-                            ConsoleEditor.EditTodoIsDone(todoToEdit);
-                            break;
-                        default:
-                            Console.WriteLine("Invalid choice.");
-                            break;
+                        Console.WriteLine("***Choose what to edit***");
+                        Console.WriteLine("1. Title");
+                        Console.WriteLine("2. Description");
+                        Console.WriteLine("3. Priority");
+                        Console.WriteLine("4. Mark as done");
+                        Console.Write("Enter your choice: ");
+                        string editChoice = Console.ReadLine();
+                        switch (editChoice)
+                        {
+                            case "1":
+                                ConsoleEditor.EditTodoTitle(todoToEdit);
+                                break;
+                            case "2":
+                                ConsoleEditor.EditTodoDescription(todoToEdit);
+                                break;
+                            case "3":
+                                ConsoleEditor.EditTodoPriority(todoToEdit);
+                                break;
+                            case "4":
+                                ConsoleEditor.EditTodoIsDone(todoToEdit);
+                                break;
+                            default:
+                                Console.WriteLine("Invalid choice.");
+                                break;
+                        } 
                     }
+                  
                     break;
                 case "4":
                     ConsoleOutput.WriteReadedTodos(todosFromFile);

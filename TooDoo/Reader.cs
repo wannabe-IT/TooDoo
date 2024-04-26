@@ -30,7 +30,6 @@ public class Reader
         
         return todo.Index;
     }
-    
     public List<Todo> ReadTodosFromFile(string pathToFile)
     {
         string? line;
@@ -54,8 +53,6 @@ public class Reader
     
     public void ReadTodosFromConsole(List<Todo> todos)
     {
-        //List<Todo> todos = ReadTodosFromFile(pathToFile);
-
         do
         {
             Console.Clear();
@@ -69,8 +66,6 @@ public class Reader
 
             Console.WriteLine("Want to add another TODO? Y/N ");
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
-
-        //writer.WriteTodosToFile(todos, pathToFile);
     }
 
     private string ReadNonEmptyInput(string prompt, string errorMessage)
@@ -109,4 +104,16 @@ public class Reader
         }
     }
 
+    public bool CheckIfAnyTodoIsInFile(List<Todo> todo)
+    {
+        bool answer = true;
+        if (todo.Count < 1)
+        {
+            Console.Clear();
+            Console.WriteLine("Any todo was found...Press any key to go back to menu.");
+            Console.ReadKey();
+            answer = false;
+        }
+        return answer;
+    }
 }
