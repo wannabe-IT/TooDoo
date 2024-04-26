@@ -4,31 +4,33 @@ namespace TooDoo;
 
 public class Menu
 {
-    public string pathToFile;
-    public string projectDirectory;
-    public string fileName;
-    public Writer ConsoleOutput;
-    public Reader ConsoleInput;
-    public Editor ConsoleEditor;
-    public Remover TodoRemover;
-    public void ShowMenu()
+    private string PathToFile{get;}
+    private Writer ConsoleOutput{get;} 
+    private Reader ConsoleInput{get;} 
+    private Editor ConsoleEditor{get;} 
+    private Remover TodoRemover{get;} 
+    public Menu()
     {
         ConsoleInput = new Reader();
         ConsoleOutput = new Writer();
         ConsoleEditor = new Editor();
         TodoRemover = new Remover();
-        projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        fileName = "todos.txt";
-        pathToFile = Path.Combine(projectDirectory, fileName);
-        ConsoleInput.CheckIfTodoFileExist(pathToFile);
-        List<Todo> todosFromFile = ConsoleInput.ReadTodosFromFile(pathToFile);
-        ConsoleOutput.WriteUpdatedIndexes(todosFromFile, pathToFile);
+        string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        string fileName = "todos.txt";
+        PathToFile = Path.Combine(projectDirectory, fileName);
+        ConsoleInput.CheckIfTodoFileExist(PathToFile);
+    }
+    
+    public void ShowMenu()
+    {
+        List<Todo> todosFromFile = ConsoleInput.ReadTodosFromFile(PathToFile);
+        ConsoleOutput.WriteUpdatedIndexes(todosFromFile, PathToFile);
         
         bool flag = true;
         while (flag)
         {
-            ConsoleInput.todosCounter(pathToFile);
-            ConsoleOutput.WriteUpdatedIndexes(todosFromFile, pathToFile);
+            ConsoleInput.todosCounter(PathToFile);
+            ConsoleOutput.WriteUpdatedIndexes(todosFromFile, PathToFile);
 
             Console.Clear();
             Console.WriteLine("1. List tasks");
@@ -52,12 +54,13 @@ public class Menu
                     ConsoleInput.ReadTodosFromConsole(todosFromFile);
                     break;
                 case "3":
+                    Console.Clear();
                     bool stopEdit = ConsoleInput.CheckIfAnyTodoIsInFile(todosFromFile);
                     if (stopEdit)
                     {
                         ConsoleOutput.WriteReadedTodos(todosFromFile);
-                        Console.Write("Choose a todo to edit (enter the index): ");
-                        int indexToEdit = ConsoleInput.todoLineToEdit(pathToFile);
+                        Console.Write("Choose a todo to edit (or press any key to go back to menu): ");
+                        int indexToEdit = ConsoleInput.todoLineToEdit(PathToFile);
                         if (indexToEdit < 1 || indexToEdit > todosFromFile.Count)
                         {
                             break;
@@ -69,36 +72,42 @@ public class Menu
                         Console.WriteLine("2. Description");
                         Console.WriteLine("3. Priority");
                         Console.WriteLine("4. Mark as done");
+                        Console.WriteLine("Press any key to go back to menu...");
                         Console.Write("Enter your choice: ");
                         string editChoice = Console.ReadLine();
                         switch (editChoice)
                         {
                             case "1":
+                                Console.Clear();
                                 ConsoleEditor.EditTodoTitle(todoToEdit);
                                 break;
                             case "2":
+                                Console.Clear();
                                 ConsoleEditor.EditTodoDescription(todoToEdit);
                                 break;
                             case "3":
+                                Console.Clear();
                                 ConsoleEditor.EditTodoPriority(todoToEdit);
                                 break;
                             case "4":
+                                Console.Clear();
                                 ConsoleEditor.EditTodoIsDone(todoToEdit);
                                 break;
                             default:
+                                Console.Clear();
                                 Console.WriteLine("Invalid choice.");
                                 break;
                         } 
                     }
-                  
                     break;
                 case "4":
+                    Console.Clear();
                     ConsoleOutput.WriteReadedTodos(todosFromFile);
-                    Console.Write("Choose a todo to remove (enter the index): ");
-                    int indexToRemove = ConsoleInput.todoLineToEdit(pathToFile);
+                    Console.Write("Choose a todo to remove (or press any key to go back to menu): ");
+                    int indexToRemove = ConsoleInput.todoLineToEdit(PathToFile);
                     if (indexToRemove < 1 || indexToRemove > todosFromFile.Count)
                     {
-                        Console.WriteLine("back to menu");
+                        Console.WriteLine("Back to menu...");
                         Console.ReadKey();
                         break;
                     }
@@ -106,14 +115,16 @@ public class Menu
                     TodoRemover.RemoveTodoByIndex(todosFromFile, todoToRemove);
                     break;
                 case "5":
-                    todosFromFile = ConsoleInput.ReadTodosFromFile(pathToFile);
-                    ConsoleOutput.WriteTodosToFile(todosFromFile, pathToFile);
+                    Console.Clear();
+                    todosFromFile = ConsoleInput.ReadTodosFromFile(PathToFile);
+                    ConsoleOutput.WriteTodosToFile(todosFromFile, PathToFile);
                     Console.WriteLine("Changes saved. Exiting...");
                     flag = false;
                     break;
                 default:
                     Console.Clear();
                     Console.WriteLine("Invalid option");
+                    Console.ReadKey();
                     break;
             }
         }

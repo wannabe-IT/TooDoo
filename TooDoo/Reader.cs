@@ -6,10 +6,14 @@ public class Reader
     Todo todo = new Todo();
     public int todoLineToEdit(string pathToFile)
     {
-        int lineToEdit;
+        int lineToEdit = -1;
         while (true)
         {
             if (int.TryParse(Console.ReadLine(), out lineToEdit) && lineToEdit > 0 && lineToEdit <= todosCounter(pathToFile))
+            {
+                break;
+            }
+            if (lineToEdit == 0)
             {
                 break;
             }
@@ -63,8 +67,10 @@ public class Reader
 
             Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1);
             todos.Add(newTodo);
-
-            Console.WriteLine("Want to add another TODO? Y/N ");
+            Console.Clear();
+            Console.WriteLine("New todo added.\n");
+            Console.WriteLine("Want to add another TODO?");
+            Console.Write("Write \"y\" for yes or \"n\" for no: ");
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
     }
 
