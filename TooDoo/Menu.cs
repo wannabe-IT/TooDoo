@@ -123,7 +123,7 @@ public class Menu
                     break;
                 default:
                     Console.Clear();
-                    Console.WriteLine("Invalid option");
+                    Console.Write("Invalid option!");
                     Console.ReadKey();
                     break;
             }

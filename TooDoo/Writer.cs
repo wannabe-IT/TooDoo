@@ -5,6 +5,10 @@ public class Writer
 {
     public void WriteReadedTodos(List<Todo> todos)
     {
+        if (todos.Count < 1)
+        {
+            Console.WriteLine("Any todo added yet!");
+        }
         for (int i = 0; i < todos.Count; i++)
         {
             Todo todo = todos[i];
