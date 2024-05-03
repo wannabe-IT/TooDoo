@@ -31,7 +31,7 @@ public class Menu
         {
             ConsoleInput.todosCounter(PathToFile);
             ConsoleOutput.WriteUpdatedIndexes(todosFromFile, PathToFile);
-
+            
             Console.Clear();
             Console.WriteLine("1. List tasks");
             Console.WriteLine("2. Add tasks");
