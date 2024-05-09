@@ -47,10 +47,8 @@ public class Reader
         return todosFromFile;
     }
     
-    public void ReadTodosFromConsole(string pathToFile)
+    public void ReadTodosFromConsole(List<Todo> todos)
     {
-        List<Todo> todos = ReadTodosFromFile(pathToFile);
-
         do
         {
             string title = ReadNonEmptyInput("Write a TODO title: ", "Title cannot be empty. Please enter a valid title.");
@@ -62,8 +60,6 @@ public class Reader
 
             Console.WriteLine("Want to add another TODO? Y/N ");
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
-
-        writer.WriteTodosToFile(todos, pathToFile);
     }
 
     private string ReadNonEmptyInput(string prompt, string errorMessage)

@@ -49,7 +49,7 @@ public class Menu
                     break;
                 case "2":
                     Console.Clear();
-                    ConsoleInput.ReadTodosFromConsole(pathToFile);
+                    ConsoleInput.ReadTodosFromConsole(todosFromFile);
                     break;
                 case "3":
                     Console.Clear();
