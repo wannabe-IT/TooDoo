@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace TooDoo;
 
 public class Todo
@@ -44,7 +46,7 @@ public class Todo
         }
         else
         {
-            throw new ArgumentException("Description cannot be empty", nameof(description));
+            Console.WriteLine("Description cannot be empty");
         }
     }
     
@@ -56,7 +58,7 @@ public class Todo
         }
         else
         {
-            throw new ArgumentException("Priority cannot be negative", nameof(priority));
+            throw new ArgumentException("Priority must be in range 1-5", nameof(priority));
         }
     }
     

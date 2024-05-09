@@ -5,14 +5,17 @@ public class Writer
 {
     public void WriteReadedTodos(List<Todo> todos)
     {
-        if (todos.Count < 1)
+        if (todos.Count == 0)
         {
             Console.WriteLine("Any todo added yet!");
         }
-        for (int i = 0; i < todos.Count; i++)
+        else
         {
-            Todo todo = todos[i];
-            Console.WriteLine(todo.ToString());
+            for (int i = 0; i < todos.Count; i++)
+            {
+                Todo todo = todos[i];
+                Console.WriteLine(todo.ToString());
+            }
         }
     }
     public void WriteUpdatedIndexes(List<Todo> todos, string pathToFile)
