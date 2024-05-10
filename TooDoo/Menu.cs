@@ -1,7 +1,3 @@
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Threading.Channels;
-
 namespace TooDoo;
 
 public class Menu
@@ -23,14 +19,15 @@ public class Menu
         fileName = "Todos.txt";
         pathToFile = Path.Combine(projectDirectory, fileName);
         List<Todo> todosFromFile = ConsoleInput.ReadTodosFromFile(pathToFile);
-        ConsoleOutput.WriteUpdatedIndexes(todosFromFile, pathToFile);
         
         bool flag = true;
         while (flag)
         {
             ConsoleInput.todosCounter(pathToFile);
+            ConsoleOutput.WriteUpdatedIndexes(todosFromFile, pathToFile);
             
             Console.Clear();
+            Console.WriteLine(DateTime.Now);
             Console.WriteLine("1. List tasks");
             Console.WriteLine("2. Add tasks");
             Console.WriteLine("3. Edit tasks");
@@ -60,13 +57,14 @@ public class Menu
                         Console.Write("Choose a todo to edit (enter the index): ");
                         int indexToEdit = ConsoleInput.todoLineToEdit(pathToFile);
                         Todo todoToEdit = todosFromFile[indexToEdit - 1];
-
+                        
+                        Console.Clear();
                         Console.WriteLine("Choose what to edit:");
                         Console.WriteLine("1. Title");
                         Console.WriteLine("2. Description");
                         Console.WriteLine("3. Priority");
                         Console.WriteLine("4. Mark as done");
-                        Console.WriteLine("Enter your choice:");
+                        Console.Write("Enter your choice: ");
                         string editChoice = Console.ReadLine();
                         switch (editChoice)
                         {
@@ -113,6 +111,7 @@ public class Menu
                     Console.Clear();
                     ConsoleOutput.WriteTodosToFile(todosFromFile, pathToFile);
                     Console.WriteLine("Changes saved. Exiting...");
+                    Console.ReadKey();
                     flag = false;
                     break;
                 default:
