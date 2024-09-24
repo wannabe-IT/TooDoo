@@ -2,19 +2,30 @@ namespace TooDoo;
 
 public class Reader
 {
-    Writer writer = new Writer();
+    //Writer writer = new Writer();
     Todo todo = new Todo();
+
     public int todoLineToEdit(string pathToFile)
     {
         int lineToEdit;
         while (true)
         {
-            if (int.TryParse(Console.ReadLine(), out lineToEdit) && lineToEdit > 0 && lineToEdit <= todosCounter(pathToFile))
+            if (int.TryParse(Console.ReadLine(), out lineToEdit) && lineToEdit > 0 &&
+                lineToEdit <= todosCounter(pathToFile))
+            {
+                break;    
+            }
+            if (lineToEdit != 0)
+            {
+                Console.WriteLine("Invalid number. Please enter a number between 1 and " + todosCounter(pathToFile)
+                    + " or press enter to go back.");
+            }
+            if (lineToEdit == 0)
             {
                 break;
             }
-            Console.WriteLine("Invalid number. Please enter a number between 1 and " + todosCounter(pathToFile));
         }
+        Console.WriteLine(lineToEdit);
         return lineToEdit;
     }
 

@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace TooDoo;
 
 public class Todo
