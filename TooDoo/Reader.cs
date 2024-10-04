@@ -1,8 +1,9 @@
+using System.Runtime.InteropServices.JavaScript;
+
 namespace TooDoo;
 
 public class Reader
 {
-    //Writer writer = new Writer();
     Todo todo = new Todo();
 
     public int todoLineToEdit(string pathToFile)
@@ -65,8 +66,9 @@ public class Reader
             string title = ReadNonEmptyInput("Write a TODO title: ", "Title cannot be empty. Please enter a valid title.");
             string description = ReadNonEmptyInput("Write a TODO description: ", "Description cannot be empty. Please enter a valid description.");
             int priority = ReadValidPriority();
+            string date = ReadNonEmptyInput("Write a date till you want to done todo: ", "Wrong date!");
 
-            Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1);
+            Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date);
             todos.Add(newTodo);
 
             Console.WriteLine("Want to add another TODO? Y/N ");
@@ -75,15 +77,17 @@ public class Reader
 
     private string ReadNonEmptyInput(string prompt, string errorMessage)
     {
-        string input;
+        string? input;
         do
         {
             Console.WriteLine(prompt);
             input = Console.ReadLine();
-            if (!string.IsNullOrEmpty(input)) break;
+            if (!string.IsNullOrEmpty(input))
+            {
+                break;
+            }
             Console.WriteLine(errorMessage);
         } while (true);
-
         return input;
     }
 

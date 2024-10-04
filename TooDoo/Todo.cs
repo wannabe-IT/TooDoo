@@ -1,3 +1,4 @@
+
 namespace TooDoo;
 
 public class Todo
@@ -7,14 +8,16 @@ public class Todo
     public bool IsDone { get; private set; }
     public int Priority { get; private set; }
     public int Index { get; private set; }
+    public string Date { get; private set; }
 
-    public Todo (string title, string description, bool isDone, int priority, int index)
+    public Todo (string title, string description, bool isDone, int priority, int index, string date)
     {
         Title = title;
         Description = description;
         IsDone = isDone;
         Priority = priority;
         Index = index;
+        Date = date;
     }
     public Todo()
     {
@@ -32,7 +35,8 @@ public class Todo
         }
         else
         {
-            throw new ArgumentException("Title cannot be empty", nameof(title));
+            Console.WriteLine("Title cannot be empty!");
+            Console.ReadKey();
         }
     }
     
@@ -44,7 +48,8 @@ public class Todo
         }
         else
         {
-            Console.WriteLine("Description cannot be empty");
+            Console.WriteLine("Description cannot be empty!");
+            Console.ReadKey();
         }
     }
     
@@ -56,7 +61,8 @@ public class Todo
         }
         else
         {
-            throw new ArgumentException("Priority must be in range 1-5", nameof(priority));
+            Console.WriteLine("Priority must be in range 1-5!");
+            Console.ReadKey();
         }
     }
     
@@ -80,7 +86,7 @@ public class Todo
         IsDone = bool.Parse(splitedString[4]);
     }
 
-    public override string ToString()
+    public string TodoToString()
     {
         return $"{Index}) Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n";
     }
@@ -92,6 +98,7 @@ public class Todo
     
     public string ToStringToCsv()
     {
-        return Index + ";" + Priority + ";" + Title + ";" + Description + ";" + IsDone;
+        return Index + ";" + Priority + ";" + Title + ";" + Description + ";" + IsDone + ";" + Date; 
     }
+    
 }
