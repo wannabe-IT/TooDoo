@@ -28,7 +28,6 @@ public class Menu
             IEnumerable<Todo> sortedTodos = listReadedTodosFromFile.OrderBy(todo => todo.Priority);
             // sorted todos put into list
             listReadedTodosFromFile = sortedTodos.ToList();
-            // change indexes in todo list after sorting
             ConsoleOutput.WriteUpdatedIndexes(listReadedTodosFromFile);     
             
             Console.Clear();
