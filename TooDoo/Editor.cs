@@ -2,6 +2,8 @@ namespace TooDoo;
 
 public class Editor
 {
+    Reader reader = new Reader();
+
     public void EditTodoTitle(Todo todo)
     {
         Console.Clear();
@@ -34,5 +36,17 @@ public class Editor
         Console.Clear();
         Console.Write("Mark as done? (y/n)");
         todo.UpdateIsDone(Console.ReadLine().ToLower() == "y");
+    }
+    public void EditDate(Todo todo)
+    {
+        int newDay = reader.ReadDayFromConsole();
+        int newMonth = reader.ReadMonthFromConsole();
+        int newYear = reader.ReadYearFromConsole();
+        string newDate;
+        
+        newDate = newDay + "." + newMonth + "." + newYear;
+        Console.WriteLine("New date for this todo is {0}", newDate);
+        todo.UpdateDate(newDate);
+        Console.ReadKey();
     }
 }

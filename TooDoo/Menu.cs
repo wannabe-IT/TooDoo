@@ -9,13 +9,15 @@ public class Menu
     public Reader ConsoleInput;
     public Editor ConsoleEditor;
     public Remover TodoRemover;
-    public string pathToFile1;
+    public DateOperations DateOperations; 
     public void ShowMenu()
     {
         ConsoleInput = new Reader();
         ConsoleOutput = new Writer();
         ConsoleEditor = new Editor();
         TodoRemover = new Remover();
+        DateOperations = new DateOperations();
+        
         projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
         fileName = "Todos.txt";
         pathToFile = Path.Combine(projectDirectory, fileName);
@@ -72,7 +74,8 @@ public class Menu
                         Console.WriteLine("1. Title");
                         Console.WriteLine("2. Description");
                         Console.WriteLine("3. Priority");
-                        Console.WriteLine("4. Mark as done");
+                        Console.WriteLine("4. Date");
+                        Console.WriteLine("5. Mark as done");
                         Console.Write("Enter your choice: ");
                         string editChoice = Console.ReadLine();
                         switch (editChoice)
@@ -87,6 +90,9 @@ public class Menu
                                 ConsoleEditor.EditTodoPriority(todoToEdit);
                                 break;
                             case "4":
+                                ConsoleEditor.EditDate(todoToEdit);
+                                break;
+                            case "5":
                                 ConsoleEditor.EditTodoIsDone(todoToEdit);
                                 break;
                             default:
@@ -113,7 +119,7 @@ public class Menu
                         }
                         Todo todoToRemove = listReadedTodosFromFile[indexToRemove - 1];
                         TodoRemover.RemoveTodoByIndex(listReadedTodosFromFile ,todoToRemove);
-                    }
+                    }   
                     else
                     {
                         Console.Write("Press any key to continue...");

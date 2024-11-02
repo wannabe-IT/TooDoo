@@ -1,9 +1,6 @@
 namespace TooDoo;
-
-
 public class Writer
 {
-
     public void WriteReadedTodos(List<Todo> todos)
     {
         if (todos.Count == 0)

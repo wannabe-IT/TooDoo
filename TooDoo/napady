@@ -1,0 +1,4 @@
+rozdelit nacitani z konzole do ruznych voidu, aby se to dalo vyuzit i jinde - hotovo
+nacitani dnu, mesicu a let v readeru, aby se dalo pouzit jak v editoru, tak v dateoperations
+
+check jestli je datum validni (pocet dni v mesici)

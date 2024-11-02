@@ -27,6 +27,11 @@ public class Todo
         Index = 0;
     }
 
+    public void UpdateDate(string date)
+    { 
+        Date = date;
+    }
+
     public void UpdateTitle(string title)
     {
         if (!string.IsNullOrEmpty(title))
@@ -84,11 +89,12 @@ public class Todo
         Title = splitedString[2];
         Description = splitedString[3];
         IsDone = bool.Parse(splitedString[4]);
+        Date = splitedString[5];
     }
 
     public string TodoToString()
     {
-        return $"{Index}) Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n";
+        return $"{Index}) Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n   Date: {Date}\n";
     }
 
     public string ToStringWithoutIndex()
@@ -100,5 +106,4 @@ public class Todo
     {
         return Index + ";" + Priority + ";" + Title + ";" + Description + ";" + IsDone + ";" + Date; 
     }
-    
 }

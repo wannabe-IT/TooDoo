@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
-
 namespace TooDoo;
 
 public class Reader
@@ -58,16 +56,19 @@ public class Reader
         }
         return todosFromFile;
     }
-    
     public void ReadTodosFromConsole(List<Todo> todos)
     {
         do
         {
-            string title = ReadNonEmptyInput("Write a TODO title: ", "Title cannot be empty. Please enter a valid title.");
-            string description = ReadNonEmptyInput("Write a TODO description: ", "Description cannot be empty. Please enter a valid description.");
-            int priority = ReadValidPriority();
-            string date = ReadNonEmptyInput("Write a date till you want to done todo: ", "Wrong date!");
-
+            string title = ReadTitleFromConsole();
+            string description = ReadDescriptionFromConsole();
+            Console.WriteLine("Write a date till you want to done TODO");
+            string day = ReadDayFromConsole().ToString();
+            string month = ReadMonthFromConsole().ToString();
+            string year = ReadYearFromConsole().ToString();
+            string date = day + "." + month + "." + year;
+            int priority = ReadPriorityFromConsole();
+            
             Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date);
             todos.Add(newTodo);
 
@@ -91,6 +92,83 @@ public class Reader
         return input;
     }
 
+    public string ReadTitleFromConsole()
+    {
+        return ReadNonEmptyInput("Write a TODO title: ", 
+            "Title cannot be empty. Please enter a valid title...");
+    }
+
+    public string ReadDescriptionFromConsole()
+    {
+        return ReadNonEmptyInput("Write a TODO description: ",
+            "Description cannot be empty. Please enter a valid description...");
+    }
+    
+    public int ReadPriorityFromConsole()
+    {
+        return ReadValidPriority();
+    }
+
+    public int ReadDayFromConsole()
+    {
+        int day;
+        bool validDay = false;
+        do
+        {
+            Console.WriteLine("Please enter a day: ");
+            bool isDay = int.TryParse(Console.ReadLine(), out day);
+            if (isDay && day > 0 && day < 32)
+            {
+                validDay = true;
+            }
+            else
+            {
+                validDay = false;
+                Console.WriteLine("Invalid day. Please enter a valid day.");
+            }
+        } while (!validDay);
+        return day;
+    }
+    public int ReadMonthFromConsole()
+    {
+        int month;
+        bool validMonth = false;
+        do
+        {
+            Console.WriteLine("Please enter a month: ");
+            bool isMonth = int.TryParse(Console.ReadLine(), out month);
+            if (isMonth && 0 < month && month < 13)
+            {
+                validMonth = true;
+            }
+            else
+            {
+                Console.WriteLine("Invalid month. Please enter a valid month...");
+            }
+        } while (!validMonth);
+        return month;
+    }
+
+    public int ReadYearFromConsole()
+    {
+        int year;
+        int currentYear = DateTime.Now.Year;
+        bool validYear = false;
+        do
+        {
+            Console.WriteLine("Please enter a year: ");
+            bool isYear = int.TryParse(Console.ReadLine(), out year);
+            if (isYear && System.DateTime.Today.Year <=year && year < System.DateTime.Today.Year + 100)
+            {
+                validYear = true; 
+            }
+            else
+            {
+                Console.WriteLine("Invalid year. You can enter only years between {0} and {1}.",currentYear, System.DateTime.Today.Year + 100);
+            }
+        } while (!validYear);
+        return year;
+    }
     private int ReadValidPriority()
     {
         int priority;

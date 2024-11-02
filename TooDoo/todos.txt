@@ -1,4 +1,4 @@
-1;1;ggg;ggg;False;
-2;2;bbb;aaa;False;
-3;4;qqq;www;False;
-4;5;trolo;asdfas;False;
+1;1;qqq;qqq;False;q
+2;1;Uklid pokoje;uklidit pokoj pred navstevou;False;22.11.2024
+3;5;222;222;False;22.11.2024
+4;5;222;222;False;1.1.2025
