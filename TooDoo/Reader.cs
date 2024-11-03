@@ -42,8 +42,7 @@ public class Reader
     
     public List<Todo> ReadTodosFromFile(string pathToFile)
     {
-        string? line;
-
+        string line;
         List<Todo> todosFromFile = new List<Todo>(); // list of objects
         using StreamReader reader = new StreamReader(Path.Combine(pathToFile));
         line = reader.ReadLine();
@@ -56,26 +55,75 @@ public class Reader
         }
         return todosFromFile;
     }
+
     public void ReadTodosFromConsole(List<Todo> todos)
     {
         do
         {
+            bool flag = false;
             string title = ReadTitleFromConsole();
             string description = ReadDescriptionFromConsole();
-            Console.WriteLine("Write a date till you want to done TODO");
-            string day = ReadDayFromConsole().ToString();
-            string month = ReadMonthFromConsole().ToString();
-            string year = ReadYearFromConsole().ToString();
-            string date = day + "." + month + "." + year;
-            int priority = ReadPriorityFromConsole();
-            
-            Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date);
-            todos.Add(newTodo);
+            string day;
+            string month;
+            string year;
+            string date;
+            while (!flag)
+            {
+                Console.Clear();
+                Console.WriteLine("Write a date till you want to done TODO");
+                day = ReadDayFromConsole().ToString();
+                Console.Clear();
+                month = ReadMonthFromConsole().ToString();
+                Console.Clear();
+                year = ReadYearFromConsole().ToString();
+                Console.Clear();
+                bool chechIfDateIsValid = CheckValidDate(day, month, year);
+
+                if (chechIfDateIsValid)
+                {
+                    date = day + "." + month + "." + year;
+                    int priority = ReadPriorityFromConsole();
+                    Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date);
+                    todos.Add(newTodo);
+                    flag = true;
+                }
+            }
 
             Console.WriteLine("Want to add another TODO? Y/N ");
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
     }
 
+    public bool CheckValidDate(string dayFromString, string monthFromString, string yearFromString)
+    {
+        bool isPossible = false;
+        
+        int day = int.Parse(dayFromString);
+        int month = int.Parse(monthFromString);
+        int year = int.Parse(yearFromString);
+        
+        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8
+            || month == 10 || month == 12)
+        {
+            isPossible = true;
+        }
+        else if (IsLeapYear(year))
+        {
+            isPossible = true;
+        }
+        else if (month == 2 && day > 28)
+        {
+            Console.WriteLine("February cannot have more than 28 days and {0} is not a leap year!", year);
+            Console.ReadKey();
+            isPossible = false;
+        }
+        else if (month == 4 || month == 6 || month == 9 || month == 11 && day > 30)
+        {
+            Console.WriteLine("This month cannot have more than 30 days!");
+            Console.ReadKey();
+            isPossible = false;
+        }
+        return isPossible;
+    }
     private string ReadNonEmptyInput(string prompt, string errorMessage)
     {
         string? input;
@@ -92,6 +140,10 @@ public class Reader
         return input;
     }
 
+    public bool IsLeapYear(int year)
+    {
+        return DateTime.IsLeapYear(year);
+    }
     public string ReadTitleFromConsole()
     {
         return ReadNonEmptyInput("Write a TODO title: ", 
@@ -112,12 +164,12 @@ public class Reader
     public int ReadDayFromConsole()
     {
         int day;
-        bool validDay = false;
+        bool validDay;
         do
         {
             Console.WriteLine("Please enter a day: ");
             bool isDay = int.TryParse(Console.ReadLine(), out day);
-            if (isDay && day > 0 && day < 32)
+            if (day > 0 && day < 32)
             {
                 validDay = true;
             }
@@ -137,7 +189,7 @@ public class Reader
         {
             Console.WriteLine("Please enter a month: ");
             bool isMonth = int.TryParse(Console.ReadLine(), out month);
-            if (isMonth && 0 < month && month < 13)
+            if (0 < month && month < 13)
             {
                 validMonth = true;
             }
@@ -158,13 +210,14 @@ public class Reader
         {
             Console.WriteLine("Please enter a year: ");
             bool isYear = int.TryParse(Console.ReadLine(), out year);
-            if (isYear && System.DateTime.Today.Year <=year && year < System.DateTime.Today.Year + 100)
+            if (System.DateTime.Today.Year <=year && year < System.DateTime.Today.Year + 100)
             {
                 validYear = true; 
             }
             else
             {
-                Console.WriteLine("Invalid year. You can enter only years between {0} and {1}.",currentYear, System.DateTime.Today.Year + 100);
+                Console.WriteLine("Invalid year. You can enter only year between {0} and {1}.",
+                    currentYear, System.DateTime.Today.Year + 100);
             }
         } while (!validYear);
         return year;

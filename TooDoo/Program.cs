@@ -6,7 +6,5 @@ class Program
     {
         Menu menu = new Menu();
         menu.ShowMenu();
-        //MenuArrowControl menuArrow = new MenuArrowControl();
-        //menuArrow.ShowMenu();
     }
 }
