@@ -161,7 +161,7 @@ namespace TooDoo
             if (todosFromFile.Count > 0)
             {
                 Console.Write("Choose a todo to edit (enter the index): ");
-                int indexToEdit = ConsoleInput.todoLineToEdit(pathToFile);
+                int indexToEdit = ConsoleInput.TodoLineToEdit(pathToFile);
                 if (indexToEdit > 0 && indexToEdit <= todosFromFile.Count)
                 {
                     Todo todoToEdit = todosFromFile[indexToEdit - 1];
@@ -201,7 +201,7 @@ namespace TooDoo
             if (todosFromFile.Count > 0)
             {
                 Console.Write("Choose a todo to remove (enter the index): ");
-                int indexToRemove = ConsoleInput.todoLineToEdit(pathToFile);
+                int indexToRemove = ConsoleInput.TodoLineToEdit(pathToFile);
                 if (indexToRemove > 0 && indexToRemove <= todosFromFile.Count)
                 {
                     Todo todoToRemove = todosFromFile[indexToRemove - 1];

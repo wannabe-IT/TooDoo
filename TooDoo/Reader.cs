@@ -2,21 +2,21 @@ namespace TooDoo;
 
 public class Reader
 {
-    Todo todo = new Todo();
+    private Todo _todo = new Todo();
 
-    public int todoLineToEdit(string pathToFile)
+    public int TodoLineToEdit(string pathToFile)
     {
         int lineToEdit;
         while (true)
         {
             if (int.TryParse(Console.ReadLine(), out lineToEdit) && lineToEdit > 0 &&
-                lineToEdit <= todosCounter(pathToFile))
+                lineToEdit <= TodosCounter(pathToFile))
             {
                 break;    
             }
             if (lineToEdit != 0)
             {
-                Console.WriteLine("Invalid number. Please enter a number between 1 and " + todosCounter(pathToFile)
+                Console.WriteLine("Invalid number. Please enter a number between 1 and " + TodosCounter(pathToFile)
                     + " or press enter to go back.");
             }
             if (lineToEdit == 0)
@@ -27,8 +27,7 @@ public class Reader
         Console.WriteLine(lineToEdit);
         return lineToEdit;
     }
-
-    public int todosCounter(string pathToFile)
+    private int TodosCounter(string pathToFile)
     {
         int todosCount = 0;
         using StreamReader reader = new StreamReader(Path.Combine(pathToFile));
@@ -36,8 +35,8 @@ public class Reader
         {
             todosCount++;
         }
-        todo.UpdateIndex(todosCount);
-        return todo.Index;
+        _todo.UpdateIndex(todosCount);
+        return _todo.Index;
     }
     
     public List<Todo> ReadTodosFromFile(string pathToFile)
@@ -48,9 +47,9 @@ public class Reader
         line = reader.ReadLine();
         while (line != null)
         {
-            todo = new Todo();
-            todo.FromString(line);
-            todosFromFile.Add(todo); //object is added into list of objects
+            _todo = new Todo();
+            _todo.FromString(line);
+            todosFromFile.Add(_todo); //object is added into list of objects
             line = reader.ReadLine();
         }
         return todosFromFile;
@@ -97,7 +96,7 @@ public class Reader
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
     }
 
-    public bool CheckValidDate(string dayFromString, string monthFromString, string yearFromString)
+    private bool CheckValidDate(string dayFromString, string monthFromString, string yearFromString)
     {
         bool isPossible = false;
         
@@ -146,23 +145,23 @@ public class Reader
         return input;
     }
 
-    public bool IsLeapYear(int year)
+    private bool IsLeapYear(int year)
     {
         return DateTime.IsLeapYear(year);
     }
-    public string ReadTitleFromConsole()
+    private string ReadTitleFromConsole()
     {
         return ReadNonEmptyInput("Write a TODO title: ", 
             "Title cannot be empty. Please enter a valid title...");
     }
 
-    public string ReadDescriptionFromConsole()
+    private string ReadDescriptionFromConsole()
     {
         return ReadNonEmptyInput("Write a TODO description: ",
             "Description cannot be empty. Please enter a valid description...");
     }
     
-    public int ReadPriorityFromConsole()
+    private int ReadPriorityFromConsole()
     {
         return ReadValidPriority();
     }
