@@ -72,15 +72,20 @@ public class Reader
                 Console.Clear();
                 Console.WriteLine("Write a date till you want to done TODO");
                 day = ReadDayFromConsole().ToString();
-                Console.Clear();
                 month = ReadMonthFromConsole().ToString();
-                Console.Clear();
                 year = ReadYearFromConsole().ToString();
                 Console.Clear();
+                Console.Write("Entered TODO deadline is {0}.{1}.{2}. Let me valiadate this date...",
+                    day, month, year);
+                Console.ReadKey();
                 bool chechIfDateIsValid = CheckValidDate(day, month, year);
 
                 if (chechIfDateIsValid)
                 {
+                    Console.Clear();
+                    Console.Write("Correct date.");
+                    Console.ReadKey();
+                    Console.Clear();
                     date = day + "." + month + "." + year;
                     int priority = ReadPriorityFromConsole();
                     Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date);
@@ -88,8 +93,7 @@ public class Reader
                     flag = true;
                 }
             }
-
-            Console.WriteLine("Want to add another TODO? Y/N ");
+            Console.Write("Want to add another TODO? Y/N: ");
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
     }
 
@@ -106,7 +110,7 @@ public class Reader
         {
             isPossible = true;
         }
-        else if (IsLeapYear(year))
+        else if (IsLeapYear(year) && day < 30)
         {
             isPossible = true;
         }
@@ -114,12 +118,14 @@ public class Reader
         {
             Console.WriteLine("February cannot have more than 28 days and {0} is not a leap year!", year);
             Console.ReadKey();
+            Console.Clear();
             isPossible = false;
         }
         else if (month == 4 || month == 6 || month == 9 || month == 11 && day > 30)
         {
             Console.WriteLine("This month cannot have more than 30 days!");
             Console.ReadKey();
+            Console.Clear();
             isPossible = false;
         }
         return isPossible;
@@ -129,7 +135,7 @@ public class Reader
         string? input;
         do
         {
-            Console.WriteLine(prompt);
+            Console.Write(prompt);
             input = Console.ReadLine();
             if (!string.IsNullOrEmpty(input))
             {
@@ -167,7 +173,7 @@ public class Reader
         bool validDay;
         do
         {
-            Console.WriteLine("Please enter a day: ");
+            Console.Write("Please enter a day: ");
             bool isDay = int.TryParse(Console.ReadLine(), out day);
             if (day > 0 && day < 32)
             {
@@ -177,6 +183,8 @@ public class Reader
             {
                 validDay = false;
                 Console.WriteLine("Invalid day. Please enter a valid day.");
+                Console.ReadKey();
+                Console.Clear();
             }
         } while (!validDay);
         return day;
@@ -187,7 +195,7 @@ public class Reader
         bool validMonth = false;
         do
         {
-            Console.WriteLine("Please enter a month: ");
+            Console.Write("Please enter a month: ");
             bool isMonth = int.TryParse(Console.ReadLine(), out month);
             if (0 < month && month < 13)
             {
@@ -208,7 +216,7 @@ public class Reader
         bool validYear = false;
         do
         {
-            Console.WriteLine("Please enter a year: ");
+            Console.Write("Please enter a year: ");
             bool isYear = int.TryParse(Console.ReadLine(), out year);
             if (System.DateTime.Today.Year <=year && year < System.DateTime.Today.Year + 100)
             {
@@ -227,12 +235,14 @@ public class Reader
         int priority;
         while (true)
         {
-            Console.WriteLine("Write a TODO priority (1-5): ");
+            Console.Write("Write a TODO priority (1-5): ");
             if (int.TryParse(Console.ReadLine(), out priority) && priority >= 1 && priority <= 5)
             {
                 return priority;
             }
             Console.WriteLine("Invalid priority. Please enter a number between 1 and 5.");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

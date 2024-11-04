@@ -1,8 +1,6 @@
 rozdelit nacitani z konzole do ruznych voidu, aby se to dalo vyuzit i jinde - hotovo
 nacitani dnu, mesicu a let v readeru, aby se dalo pouzit jak v editoru, tak v dateoperations - hotovo
+public void ReadTodosFromConsole - udelat cyklus aby musel byt validni datum - hotovo
+pridat overeni zda je prestupny rok - hotovo
 
-check jestli je datum validni (pocet dni v mesici) - hotovo 1/2 je treba overit unor kvuli prestupnemu roku
-
-public void ReadTodosFromConsole(List<Todo> todos) - udelat cyklus aby musel byt validni datum
-pridat overeni zda je prestupny rok
 prace s kalendarem - kolik dni zbyva nebo kolik je po terminu

@@ -118,7 +118,7 @@ public class Menu
                             break;
                         }
                         Todo todoToRemove = listReadedTodosFromFile[indexToRemove - 1];
-                        TodoRemover.RemoveTodoByIndex(listReadedTodosFromFile ,todoToRemove);
+                        TodoRemover.RemoveTodoByIndex(listReadedTodosFromFile, todoToRemove);
                     }   
                     else
                     {
