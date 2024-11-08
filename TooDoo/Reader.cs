@@ -16,7 +16,7 @@ public class Reader
             }
             if (lineToEdit != 0)
             {
-                Console.WriteLine("Invalid number. Please enter a number between 1 and " + TodosCounter(pathToFile)
+                Console.Write("Invalid number. Please enter a number between 1 and " + TodosCounter(pathToFile)
                     + " or press enter to go back.");
             }
             if (lineToEdit == 0)
@@ -115,14 +115,14 @@ public class Reader
         }
         else if (month == 2 && day > 28)
         {
-            Console.WriteLine("February cannot have more than 28 days and {0} is not a leap year!", year);
+            Console.Write("February cannot have more than 28 days and {0} is not a leap year!", year);
             Console.ReadKey();
             Console.Clear();
             isPossible = false;
         }
         else if (month == 4 || month == 6 || month == 9 || month == 11 && day > 30)
         {
-            Console.WriteLine("This month cannot have more than 30 days!");
+            Console.Write("This month cannot have more than 30 days!");
             Console.ReadKey();
             Console.Clear();
             isPossible = false;
@@ -239,7 +239,7 @@ public class Reader
             {
                 return priority;
             }
-            Console.WriteLine("Invalid priority. Please enter a number between 1 and 5.");
+            Console.Write("Invalid priority. Please enter a number between 1 and 5.");
             Console.ReadKey();
             Console.Clear();
         }

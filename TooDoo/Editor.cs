@@ -45,7 +45,7 @@ public class Editor
         string newDate;
         
         newDate = newDay + "." + newMonth + "." + newYear;
-        Console.WriteLine("New date for this todo is {0}", newDate);
+        Console.Write("New date for this todo is {0}", newDate);
         todo.UpdateDate(newDate);
         Console.ReadKey();
     }

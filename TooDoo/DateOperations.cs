@@ -8,14 +8,12 @@ public class DateOperations
         
         return currentDate;
     }
-
     public string GetDateFromTodoFile(Todo todo)
     {
         var dates = todo.Date;
         Console.WriteLine(dates);
         return dates;
     }
-
     public void CalculateDaysToFInishTodo(List<Todo> todos)
     {
         var currentDate = GetCurrentDate().ToShortDateString();

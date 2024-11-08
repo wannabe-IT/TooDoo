@@ -40,7 +40,7 @@ public class Todo
         }
         else
         {
-            Console.WriteLine("Title cannot be empty!");
+            Console.Write("Title cannot be empty!");
             Console.ReadKey();
         }
     }
@@ -53,7 +53,7 @@ public class Todo
         }
         else
         {
-            Console.WriteLine("Description cannot be empty!");
+            Console.Write("Description cannot be empty!");
             Console.ReadKey();
         }
     }
@@ -66,7 +66,7 @@ public class Todo
         }
         else
         {
-            Console.WriteLine("Priority must be in range 1-5!");
+            Console.Write("Priority must be in range 1-5!");
             Console.ReadKey();
         }
     }

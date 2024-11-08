@@ -1,5 +1,4 @@
-1;1;qqq;qqq;False;q
-2;1;Uklid pokoje;uklidit pokoj pred navstevou;False;22.11.2024
-3;5;222;222;False;22.11.2024
-4;5;222;222;False;1.1.2025
-5;5;ww;ww;False;2.2.2024
+1;1;Uklid pokoje;uklidit pokoj pred navstevou;False;22.11.2024
+2;5;222;222;False;22.11.2024
+3;5;222;222;False;1.1.2025
+4;5;ww;ww;False;2.2.2024
