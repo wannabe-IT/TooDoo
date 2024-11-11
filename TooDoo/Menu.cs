@@ -28,17 +28,16 @@ public class Menu
             _consoleOutput.WriteUpdatedIndexes(listReadedTodosFromFile);
             while (!Console.KeyAvailable)
             {
-                screenSaver += 1;
                 Console.Clear();
                 Console.WriteLine(DateTime.Now);
-                Console.WriteLine("-------MENU-------");
+                Console.WriteLine("--------MENU--------");
                 Console.WriteLine("1. List tasks");
                 Console.WriteLine("2. Add tasks");
                 Console.WriteLine("3. Edit tasks");
                 Console.WriteLine("4. Delete tasks");
                 Console.WriteLine("5. Exit");
                 Console.Write("Choose an option: ");
-                if (screenSaver == 5)
+                if (screenSaver == 30)
                 {
                     bool flag2 = true;
                     while (flag2)
@@ -49,8 +48,8 @@ public class Menu
                         Console.WriteLine();
                         Console.WriteLine();
                         Console.WriteLine();
-                        Console.WriteLine("     " + DateTime.Now + "     ");
-                        Console.WriteLine();
+                        Console.WriteLine("      " + DateTime.Now + "     ");
+                        Console.WriteLine("  Press any key to continue...   ");
                         Console.WriteLine();
                         Console.WriteLine();
                         if (Console.KeyAvailable)
@@ -65,9 +64,9 @@ public class Menu
                 {
                     Thread.Sleep(1000);
                 }
+                screenSaver += 1;
             }
             screenSaver = 0;
-            
             string answer = Console.ReadLine();
             switch (answer)
             {
