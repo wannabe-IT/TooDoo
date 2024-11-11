@@ -17,6 +17,7 @@ public class Menu
         pathToFile = Path.Combine(projectDirectory, fileName);
         List<Todo> listReadedTodosFromFile = _consoleInput.ReadTodosFromFile(pathToFile);
         
+        int screenSaver = 0;
         bool flag = true;
         while (flag)
         {
@@ -24,18 +25,50 @@ public class Menu
             IEnumerable<Todo> sortedTodos = listReadedTodosFromFile.OrderBy(todo => todo.Priority);
             // sorted todos put into list
             listReadedTodosFromFile = sortedTodos.ToList();
-            _consoleOutput.WriteUpdatedIndexes(listReadedTodosFromFile);     
+            _consoleOutput.WriteUpdatedIndexes(listReadedTodosFromFile);
+            while (!Console.KeyAvailable)
+            {
+                screenSaver += 1;
+                Console.Clear();
+                Console.WriteLine(DateTime.Now);
+                Console.WriteLine("-------MENU-------");
+                Console.WriteLine("1. List tasks");
+                Console.WriteLine("2. Add tasks");
+                Console.WriteLine("3. Edit tasks");
+                Console.WriteLine("4. Delete tasks");
+                Console.WriteLine("5. Exit");
+                Console.Write("Choose an option: ");
+                if (screenSaver == 5)
+                {
+                    bool flag2 = true;
+                    while (flag2)
+                    {
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine("     " + DateTime.Now + "     ");
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        if (Console.KeyAvailable)
+                        {
+                            Console.ReadKey(true);
+                            screenSaver = 0;
+                            flag2 = false;
+                        }
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+            screenSaver = 0;
             
-            Console.Clear();
-            //Console.WriteLine(DateTime.Now);
-            Console.WriteLine("1. List tasks");
-            Console.WriteLine("2. Add tasks");
-            Console.WriteLine("3. Edit tasks");
-            Console.WriteLine("4. Delete tasks");
-            Console.WriteLine("5. Exit");
-            Console.Write("Choose an option: ");
             string answer = Console.ReadLine();
-            
             switch (answer)
             {
                 case "1":

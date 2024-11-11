@@ -2,6 +2,7 @@ namespace TooDoo;
 
 public class DateOperations
 {
+    private Todo _todo = new Todo();
     public System.DateTime GetCurrentDate()
     {
         var currentDate = System.DateTime.Today;
@@ -14,20 +15,12 @@ public class DateOperations
         Console.WriteLine(dates);
         return dates;
     }
-    public void CalculateDaysToFInishTodo(List<Todo> todos)
+    public void CalculateDaysToFInishTodo(Todo todo)
     {
-        var currentDate = GetCurrentDate().ToShortDateString();
-        foreach (var todo in todos)
-        {
-            var dateFromTodo = DateTime.Parse(todo.Date).ToShortDateString();
-            string datum = dateFromTodo;
-            Console.WriteLine(datum);
-            Console.ReadKey();
-            if (datum == "10-03-2022")
-            {
-                Console.ReadLine();
-            }
-            Console.WriteLine(datum);
-        }
+        int currentDate = System.DateTime.Today.Day;
+        int currentMonth = System.DateTime.Today.Month;
+        int currentYear = System.DateTime.Today.Year;
+        int day;
+
     }
 }
