@@ -13,10 +13,14 @@ public class Menu
     public void ShowMenu()
     {
         projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        fileName = "Todos.txt";
+        fileName = "todos.txt";
         pathToFile = Path.Combine(projectDirectory, fileName);
+        if (!_consoleInput.IsFile(pathToFile))
+        {
+            _consoleOutput.CreateTodoFile(pathToFile);
+            Console.ReadKey();
+        }
         List<Todo> listReadedTodosFromFile = _consoleInput.ReadTodosFromFile(pathToFile);
-        
         int screenSaver = 0;
         bool flag = true;
         while (flag)

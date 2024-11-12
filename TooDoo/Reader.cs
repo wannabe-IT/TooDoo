@@ -244,4 +244,9 @@ public class Reader
             Console.Clear();
         }
     }
+
+    public bool IsFile(string path)
+    {
+        return File.Exists(path);
+    }
 }

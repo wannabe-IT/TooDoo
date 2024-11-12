@@ -35,4 +35,10 @@ public class Writer
             writer.WriteLine(todo.ToStringToCsv());
         }
     }
+
+    public void CreateTodoFile(string directory)
+    {
+        using (StreamWriter writer = new StreamWriter(directory));
+        Console.WriteLine("TODO file created...");
+    }
 }
