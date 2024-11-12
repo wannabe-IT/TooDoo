@@ -96,7 +96,7 @@ public class Reader
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
     }
 
-    private bool CheckValidDate(string dayFromString, string monthFromString, string yearFromString)
+    public bool CheckValidDate(string dayFromString, string monthFromString, string yearFromString)
     {
         bool isPossible = false;
         

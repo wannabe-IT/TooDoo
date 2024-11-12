@@ -39,14 +39,23 @@ public class Editor
     }
     public void EditDate(Todo todo)
     {
-        int newDay = reader.ReadDayFromConsole();
-        int newMonth = reader.ReadMonthFromConsole();
-        int newYear = reader.ReadYearFromConsole();
         string newDate;
-        
-        newDate = newDay + "." + newMonth + "." + newYear;
-        Console.Write("New date for this todo is {0}", newDate);
-        todo.UpdateDate(newDate);
+        bool flag = true;
+        while (flag)
+        {
+            Console.Clear();
+            Console.WriteLine("Current day is: {0}", todo.Date);
+            string newDay = reader.ReadDayFromConsole().ToString();
+            string newMonth = reader.ReadMonthFromConsole().ToString();
+            string newYear = reader.ReadYearFromConsole().ToString();
+            if (reader.CheckValidDate(newDay, newMonth, newYear))
+            {
+                newDate = newDay + "." + newMonth + "." + newYear;
+                Console.Write("New date for this todo is {0}", newDate);
+                todo.UpdateDate(newDate);
+                flag = false;
+            }
+        }
         Console.ReadKey();
     }
 }

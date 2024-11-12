@@ -26,12 +26,10 @@ public class Todo
         Description = string.Empty;
         Index = 0;
     }
-
     public void UpdateDate(string date)
     { 
         Date = date;
     }
-
     public void UpdateTitle(string title)
     {
         if (!string.IsNullOrEmpty(title))
@@ -44,7 +42,6 @@ public class Todo
             Console.ReadKey();
         }
     }
-    
     public void UpdateDescription(string description)
     {
         if (!string.IsNullOrEmpty(description))
@@ -57,7 +54,6 @@ public class Todo
             Console.ReadKey();
         }
     }
-    
     public void UpdatePriority(int priority)
     {
         if (priority > 0 && priority <= 5)
@@ -70,7 +66,6 @@ public class Todo
             Console.ReadKey();
         }
     }
-    
     public void UpdateIsDone(bool isDone)
     {
         IsDone = isDone;
@@ -80,7 +75,6 @@ public class Todo
         Index = index;
         return Index;
     }
-    
     public void FromString(string readedString)
     {
         string[] splitedString = readedString.Split(";");
@@ -91,17 +85,14 @@ public class Todo
         IsDone = bool.Parse(splitedString[4]);
         Date = splitedString[5];
     }
-
     public string TodoToString()
     {
         return $"{Index}) Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n   Date: {Date}\n";
     }
-
     public string ToStringWithoutIndex()
     {
         return $"Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n";
     }
-    
     public string ToStringToCsv()
     {
         return Index + ";" + Priority + ";" + Title + ";" + Description + ";" + IsDone + ";" + Date; 
