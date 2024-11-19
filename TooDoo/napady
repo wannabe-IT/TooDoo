@@ -3,5 +3,5 @@ nacitani dnu, mesicu a let v readeru, aby se dalo pouzit jak v editoru, tak v da
 public void ReadTodosFromConsole - udelat cyklus aby musel byt validni datum - hotovo
 pridat overeni zda je prestupny rok - hotovo
 
-osetrit, aby se nedalo todo nedalo vytvorit do minulosti
+osetrit, aby se nedalo ukol nedal vytvorit do minulosti
 prace s kalendarem - kolik dni zbyva nebo kolik je po terminu

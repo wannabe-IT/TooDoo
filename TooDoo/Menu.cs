@@ -41,36 +41,8 @@ public class Menu
                 Console.WriteLine("4. Delete tasks");
                 Console.WriteLine("5. Exit");
                 Console.Write("Choose an option: ");
-                if (screenSaver == 30)
-                {
-                    bool flag2 = true;
-                    while (flag2)
-                    {
-                        Thread.Sleep(1000);
-                        Console.Clear();
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine("      " + DateTime.Now + "     ");
-                        Console.WriteLine("  Press any key to continue...   ");
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        if (Console.KeyAvailable)
-                        {
-                            Console.ReadKey(true);
-                            screenSaver = 0;
-                            flag2 = false;
-                        }
-                    }
-                }
-                else
-                {
-                    Thread.Sleep(1000);
-                }
-                screenSaver += 1;
+                Thread.Sleep(1000);
             }
-            screenSaver = 0;
             string answer = Console.ReadLine();
             switch (answer)
             {
