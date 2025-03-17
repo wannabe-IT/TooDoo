@@ -87,7 +87,7 @@ public class Todo
     }
     public string TodoToString()
     {
-        return $"{Index}) Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n   Date: {Date}\n";
+        return $"{Index}) Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n   Date: {Date}";
     }
     public string ToStringWithoutIndex()
     {
