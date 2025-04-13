@@ -1,100 +1,114 @@
+using System.Text.Json.Serialization;
 
-namespace TooDoo;
-
-public class Todo
+namespace TooDoo
 {
-    public string Title { get; private set; }
-    public string Description { get; private set; }
-    public bool IsDone { get; private set; }
-    public int Priority { get; private set; }
-    public int Index { get; private set; }
-    public string Date { get; private set; }
 
-    public Todo (string title, string description, bool isDone, int priority, int index, string date)
+    public class Todo
     {
-        Title = title;
-        Description = description;
-        IsDone = isDone;
-        Priority = priority;
-        Index = index;
-        Date = date;
-    }
-    public Todo()
-    {
-        Priority = 0;
-        Title = string.Empty;
-        Description = string.Empty;
-        Index = 0;
-    }
-    public void UpdateDate(string date)
-    { 
-        Date = date;
-    }
-    public void UpdateTitle(string title)
-    {
-        if (!string.IsNullOrEmpty(title))
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public bool IsDone { get; set; }
+        public int Priority { get; set; }
+        public int Index { get; set; }
+        public string Date { get; set; }
+        public string Hours { get; set; }
+        public string Minutes { get; set; }
+
+        public Todo() 
+        {
+            Title = "";
+            Description = "";
+            IsDone = false;
+            Priority = 0;
+            Index = 0;
+            Date = "";
+            Hours = "";
+            Minutes = "";
+        }
+
+        public Todo(string title, string description, bool isDone, int priority, int index, string date, string hours, string minutes)
         {
             Title = title;
-        }
-        else
-        {
-            Console.Write("Title cannot be empty!");
-            Console.ReadKey();
-        }
-    }
-    public void UpdateDescription(string description)
-    {
-        if (!string.IsNullOrEmpty(description))
-        {
             Description = description;
-        }
-        else
-        {
-            Console.Write("Description cannot be empty!");
-            Console.ReadKey();
-        }
-    }
-    public void UpdatePriority(int priority)
-    {
-        if (priority > 0 && priority <= 5)
-        {
+            IsDone = isDone;
             Priority = priority;
+            Index = index;
+            Date = date;
+            Hours = hours;
+            Minutes = minutes;
         }
-        else
+
+        public void UpdateDate(string date)
         {
-            Console.Write("Priority must be in range 1-5!");
-            Console.ReadKey();
+            Date = date;
         }
-    }
-    public void UpdateIsDone(bool isDone)
-    {
-        IsDone = isDone;
-    }
-    public int UpdateIndex(int index)
-    {
-        Index = index;
-        return Index;
-    }
-    public void FromString(string readedString)
-    {
-        string[] splitedString = readedString.Split(";");
-        Index = Int32.Parse(splitedString[0]);
-        Priority = Int32.Parse(splitedString[1]);
-        Title = splitedString[2];
-        Description = splitedString[3];
-        IsDone = bool.Parse(splitedString[4]);
-        Date = splitedString[5];
-    }
-    public string TodoToString()
-    {
-        return $"{Index}) Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n   Date: {Date}";
-    }
-    public string ToStringWithoutIndex()
-    {
-        return $"Title: {Title}\n   Description: {Description}\n   Priority: {Priority}\n";
-    }
-    public string ToStringToCsv()
-    {
-        return Index + ";" + Priority + ";" + Title + ";" + Description + ";" + IsDone + ";" + Date; 
+
+        public void UpdateTitle(string title)
+        {
+            if (!string.IsNullOrEmpty(title))
+            {
+                Title = title;
+            }
+            else
+            {
+                Console.Write("Title cannot be empty!");
+                Console.ReadKey();
+            }
+        }
+
+        public void UpdateDescription(string description)
+        {
+            if (!string.IsNullOrEmpty(description))
+            {
+                Description = description;
+            }
+            else
+            {
+                Console.Write("Description cannot be empty!");
+                Console.ReadKey();
+            }
+        }
+
+        public void UpdatePriority(int priority)
+        {
+            if (priority > 0 && priority <= 5)
+            {
+                Priority = priority;
+            }
+            else
+            {
+                Console.Write("Priority must be in range 1-5!");
+                Console.ReadKey();
+            }
+        }
+
+        public void UpdateIsDone(bool isDone)
+        {
+            IsDone = isDone;
+        }
+
+        public int UpdateIndex(int index)
+        {
+            Index = index;
+            return Index;
+        }
+        public string UpdateHours(string hours)
+        {
+            Hours = hours;
+            return Hours;
+        }
+        public string UpdateMinutes(string minutes)
+        {
+            Minutes = minutes;
+            return Minutes;
+        }
+
+        public string TodoToString()
+        {
+            return Index + ") Title: " + Title + "\n   Description: " + Description +
+                   "\n   Priority: " + Priority + "\n   Date: " + Date + "\n   Time: " + Hours + ":" + Minutes;
+        }
+
+
     }
 }

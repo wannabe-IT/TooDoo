@@ -1,7 +1,9 @@
 namespace TooDoo;
+using System.Text.Json;
+
 public class Writer
 {
-    public void WriteReadedTodos(List<Todo> todos)
+    public void WriteReadTodos(List<Todo> todos)
     {
         var dateOps = new DateOperations();
     
@@ -14,33 +16,52 @@ public class Writer
             for (int i = 0; i < todos.Count; i++)
             {
                 Todo todo = todos[i];
-                // Nejprve vypíše základní informace o todo
-                //Console.WriteLine(todo.TodoToString());
-            
-                // Potom na další řádek přidá informaci o termínu s odsazením
-                int daysLeft = dateOps.CalculateDaysToFinishTodo(todo);
-                if (daysLeft > 0)
+                Console.WriteLine(todo.TodoToString());
+                
+                TimeSpan timeLeft = dateOps.CalculateDaysToFinishTodo(todo);
+                
+                if (timeLeft.TotalMinutes > 0)
                 {
-                    Console.WriteLine(todo.TodoToString());
-                    Console.WriteLine($"   {daysLeft} days left");
-                    Console.WriteLine();
+                    string timeLeftStr = FormatTimeSpan(timeLeft);
+                    Console.WriteLine($"   {timeLeftStr} left");
                 }
-                else if (daysLeft < 0)
+                else if (timeLeft.TotalMinutes < 0)
                 {
-                    Console.WriteLine(todo.TodoToString());
-                    Console.WriteLine($"   {Math.Abs(daysLeft)} days past due");
-                    Console.WriteLine();
+                    TimeSpan overdue = timeLeft.Duration();
+                    string overdueStr = FormatTimeSpan(overdue);
+                    Console.WriteLine($"   {overdueStr} past due");
                 }
                 else
                 {
-                    Console.WriteLine(todo.TodoToString());
                     Console.WriteLine("   Due today");
-                    Console.WriteLine();
                 }
+                Console.WriteLine();
             }
         }
     }
-    
+    private string FormatTimeSpan(TimeSpan timeSpan)
+    {
+        List<string> parts = new List<string>();
+        
+        // Days
+        if (timeSpan.Days > 0)
+            parts.Add($"{timeSpan.Days} {(timeSpan.Days == 1 ? "day" : "days")}");
+        
+        // Hours
+        if (timeSpan.Hours > 0)
+            parts.Add($"{timeSpan.Hours} {(timeSpan.Hours == 1 ? "hour" : "hours")}");
+        
+        // Minutes
+        if (timeSpan.Minutes > 0 || (parts.Count == 0 && timeSpan.Seconds > 0))
+            parts.Add($"{timeSpan.Minutes} {(timeSpan.Minutes == 1 ? "minute" : "minutes")}");
+        
+        // If very short time
+        if (parts.Count == 0)
+            return "less than a minute";
+        
+        return string.Join(", ", parts);
+    }
+
     public void WriteUpdatedIndexes(List<Todo> todos)
     {
         for (int i = 0; i < todos.Count; i++)
@@ -49,20 +70,20 @@ public class Writer
             todo.UpdateIndex(i + 1);
         }
     }
-    
+
     public void WriteTodosToFile(List<Todo> todos, string pathToFile)
     {
-        using StreamWriter writer = new StreamWriter(pathToFile);
-
-        foreach (Todo todo in todos)
+        string jsonString = JsonSerializer.Serialize(todos, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(pathToFile, jsonString);
+    }
+    
+    public void CreateTodoFile(string pathToFile)
+    {
+        if (!File.Exists(pathToFile))
         {
-            writer.WriteLine(todo.ToStringToCsv());
+            File.WriteAllText(pathToFile, "[]");
         }
     }
 
-    public void CreateTodoFile(string directory)
-    {
-        using (StreamWriter writer = new StreamWriter(directory));
-        Console.WriteLine("TODO file created...");
-    }
+
 }

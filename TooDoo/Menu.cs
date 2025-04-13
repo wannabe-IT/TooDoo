@@ -2,65 +2,60 @@ namespace TooDoo;
 
 public class Menu
 {
-    private string pathToFile;
-    private string projectDirectory;
-    private string fileName;
+    private string pathToFile = string.Empty;
+    private string projectDirectory = string.Empty;
+    private string fileName = string.Empty;
     private Writer _consoleOutput = new();
     private Reader _consoleInput = new();
     private Editor _consoleEditor = new();
     private Remover _todoRemover = new();
-    public DateOperations DateOperations = new(); 
+
     public void ShowMenu()
     {
         projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        fileName = "todos.txt";
+        fileName = "todos.json";
         pathToFile = Path.Combine(projectDirectory, fileName);
         if (!_consoleInput.IsFile(pathToFile))
         {
             _consoleOutput.CreateTodoFile(pathToFile);
             Console.ReadKey();
         }
-        List<Todo> listReadedTodosFromFile = _consoleInput.ReadTodosFromFile(pathToFile);
-        int screenSaver = 0;
+        List<Todo> listReadTodosFromFile = _consoleInput.ReadTodosFromFile(pathToFile);
         bool flag = true;
         while (flag)
         {
-            //sorting by prio (1- highest, 5- lowest)
-            IEnumerable<Todo> sortedTodos = listReadedTodosFromFile.OrderBy(todo => todo.Priority);
-            // sorted todos put into list
-            listReadedTodosFromFile = sortedTodos.ToList();
-            _consoleOutput.WriteUpdatedIndexes(listReadedTodosFromFile);
-            while (!Console.KeyAvailable)
-            {
-                Console.Clear();
-                Console.WriteLine(DateTime.Now);
-                Console.WriteLine("--------MENU--------");
-                Console.WriteLine("1. List tasks");
-                Console.WriteLine("2. Add tasks");
-                Console.WriteLine("3. Edit tasks");
-                Console.WriteLine("4. Delete tasks");
-                Console.WriteLine("5. Exit");
-                Console.Write("Choose an option: ");
-                Thread.Sleep(1000);
-            }
+            IEnumerable<Todo> sortedTodos = listReadTodosFromFile.OrderBy(todo => todo.Priority);
+            listReadTodosFromFile = sortedTodos.ToList();
+            _consoleOutput.WriteUpdatedIndexes(listReadTodosFromFile);
+            
+            Console.Clear();
+            Console.WriteLine(DateTime.Now);
+            Console.WriteLine("--------MENU--------");
+            Console.WriteLine("1. List tasks");
+            Console.WriteLine("2. Add tasks");
+            Console.WriteLine("3. Edit tasks");
+            Console.WriteLine("4. Delete tasks");
+            Console.WriteLine("5. Exit");
+            Console.Write("Choose an option: ");
+            
             string answer = Console.ReadLine();
             switch (answer)
             {
                 case "1":
                     Console.Clear();
-                    _consoleOutput.WriteReadedTodos(listReadedTodosFromFile);
+                    _consoleOutput.WriteReadTodos(listReadTodosFromFile);
                     Console.Write("Press any key to continue...");
                     Console.ReadKey();
                     break;
                 case "2":
                     Console.Clear();
-                    _consoleInput.ReadTodosFromConsole(listReadedTodosFromFile);
+                    _consoleInput.ReadTodosFromConsole(listReadTodosFromFile);
                     break;
                 case "3":
                     Console.Clear();
-                    _consoleOutput.WriteReadedTodos(listReadedTodosFromFile);
+                    _consoleOutput.WriteReadTodos(listReadTodosFromFile);
                     
-                    if (0 < listReadedTodosFromFile.Count)
+                    if (0 < listReadTodosFromFile.Count)
                     {
                         Console.Write("Choose a todo to edit (enter the index): ");
                         int indexToEdit = _consoleInput.TodoLineToEdit(pathToFile);
@@ -69,14 +64,14 @@ public class Menu
                             break;
                         }
                         Console.Write(indexToEdit + "indexToEdit");
-                        Todo todoToEdit = listReadedTodosFromFile[indexToEdit - 1];
+                        Todo todoToEdit = listReadTodosFromFile[indexToEdit - 1];
                         
                         Console.Clear();
                         Console.WriteLine("Choose what to edit:");
                         Console.WriteLine("1. Title");
                         Console.WriteLine("2. Description");
                         Console.WriteLine("3. Priority");
-                        Console.WriteLine("4. Date");
+                        Console.WriteLine("4. Date & time");
                         Console.WriteLine("5. Mark as done");
                         Console.Write("Enter your choice: ");
                         string editChoice = Console.ReadLine();
@@ -110,8 +105,8 @@ public class Menu
                     break;
                 case "4":
                     Console.Clear();
-                    _consoleOutput.WriteReadedTodos(listReadedTodosFromFile);
-                    if (0 < listReadedTodosFromFile.Count)
+                    _consoleOutput.WriteReadTodos(listReadTodosFromFile);
+                    if (0 < listReadTodosFromFile.Count)
                     {
                         Console.Write("Choose a todo to remove: ");
                         int indexToRemove = _consoleInput.TodoLineToEdit(pathToFile);
@@ -119,8 +114,8 @@ public class Menu
                         {
                             break;
                         }
-                        Todo todoToRemove = listReadedTodosFromFile[indexToRemove - 1];
-                        _todoRemover.RemoveTodoByIndex(listReadedTodosFromFile, todoToRemove);
+                        Todo todoToRemove = listReadTodosFromFile[indexToRemove - 1];
+                        _todoRemover.RemoveTodoByIndex(listReadTodosFromFile, todoToRemove);
                     }   
                     else
                     {
@@ -130,7 +125,7 @@ public class Menu
                     break;
                 case "5":
                     Console.Clear();
-                    _consoleOutput.WriteTodosToFile(listReadedTodosFromFile, pathToFile);
+                    _consoleOutput.WriteTodosToFile(listReadTodosFromFile, pathToFile);
                     Console.Write("Changes saved. Exiting...");
                     flag = false;
                     break;

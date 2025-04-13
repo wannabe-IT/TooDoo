@@ -1,8 +1,10 @@
+using System.Text.Json;
 namespace TooDoo;
 
 public class Reader
 {
     private Todo _todo = new Todo();
+    
 
     public int TodoLineToEdit(string pathToFile)
     {
@@ -41,58 +43,105 @@ public class Reader
     
     public List<Todo> ReadTodosFromFile(string pathToFile)
     {
-        string line;
-        List<Todo> todosFromFile = new List<Todo>(); // list of objects
-        using StreamReader reader = new StreamReader(Path.Combine(pathToFile));
-        line = reader.ReadLine();
-        while (line != null)
+        if (!File.Exists(pathToFile))
         {
-            _todo = new Todo();
-            _todo.FromString(line);
-            todosFromFile.Add(_todo); //object is added into list of objects
-            line = reader.ReadLine();
+            Console.WriteLine("Soubor not found!");
+            return new List<Todo>();
         }
-        return todosFromFile;
+
+        try
+        {
+            string jsonContent = File.ReadAllText(pathToFile);
+            if (string.IsNullOrWhiteSpace(jsonContent))
+            {
+                return new List<Todo>();
+            }
+            
+            return JsonSerializer.Deserialize<List<Todo>>(jsonContent) ?? new List<Todo>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Chyba při čtení souboru: {ex.Message}");
+            return new List<Todo>();
+        }
     }
 
+    int hour;
+    int minute;
+    string month;
+    string year;
+    string date;
     public void ReadTodosFromConsole(List<Todo> todos)
     {
         do
         {
             bool flag = false;
+            bool checkifTimeIsValid = false;
+            bool checkifDateIsValid = false;
             string title = ReadTitleFromConsole();
             string description = ReadDescriptionFromConsole();
-            string day;
-            string month;
-            string year;
-            string date;
+            string day = "";
+            
+            
             while (!flag)
             {
-                Console.Clear();
-                Console.WriteLine("Write a date till you want to done TODO");
-                day = ReadDayFromConsole().ToString();
-                month = ReadMonthFromConsole().ToString();
-                year = ReadYearFromConsole().ToString();
-                Console.Clear();
-                Console.Write("Entered TODO deadline is {0}.{1}.{2}. Let me valiadate this date...",
-                    day, month, year);
-                Console.ReadKey();
-                bool chechIfDateIsValid = CheckValidDate(day, month, year);
-
-                if (chechIfDateIsValid)
+                while (!checkifDateIsValid)
                 {
+                    Console.WriteLine("Write a date till you want to done TODO");
+                    day = ReadDayFromConsole().ToString();
+                    month = ReadMonthFromConsole().ToString();
+                    year = ReadYearFromConsole().ToString();
                     Console.Clear();
-                    Console.Write("Correct date.");
+                    Console.Write("Entered TODO deadline is {0}.{1}.{2}. Let me validate this date...",
+                        day, month, year);
                     Console.ReadKey();
-                    Console.Clear();
+                    bool checkIfDateIsValid = CheckValidDate(day, month, year);
+                    Console.WriteLine(checkIfDateIsValid);
+                    Console.ReadKey();
+                    if (checkIfDateIsValid)
+                    {
+                        Console.Clear();
+                        Console.Write("Correct date.");
+                        Console.ReadKey();
+                        checkifDateIsValid = true;
+                        Console.Clear();
+                    }
+                }
+                
+                while (!checkifTimeIsValid)
+                {
+                    Console.Write("Write hour when you want to finish todo: ");
+                    hour = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Write minute when you want to finish todo: ");
+                    minute = int.Parse(Console.ReadLine());
+                    if ((hour > 24 || hour < 0) || (minute > 60 || minute < 0))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Invalid time. Please enter a valid time.");
+                        checkifTimeIsValid = false;
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.Write("Correct time.");
+                        checkifTimeIsValid = true;
+                        Console.ReadKey();
+                    }
+                }
+                bool dateAndTimeAreValid = checkifDateIsValid && checkifTimeIsValid;
+                if (dateAndTimeAreValid)
+                {
                     date = day + "." + month + "." + year;
                     int priority = ReadPriorityFromConsole();
-                    Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date);
+                    Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date, hour.ToString(), minute.ToString());
                     todos.Add(newTodo);
                     flag = true;
                 }
             }
             Console.Write("Want to add another TODO? Y/N: ");
+            Console.ReadKey();
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
     }
 
@@ -109,7 +158,7 @@ public class Reader
         {
             isPossible = true;
         }
-        else if (IsLeapYear(year) && day < 30)
+        else if (month == 2 && day == 29 && IsLeapYear(year))
         {
             isPossible = true;
         }
@@ -118,14 +167,20 @@ public class Reader
             Console.Write("February cannot have more than 28 days and {0} is not a leap year!", year);
             Console.ReadKey();
             Console.Clear();
-            isPossible = false;
         }
-        else if (month == 4 || month == 6 || month == 9 || month == 11 && day > 30)
+        else if (month == 2 && day <= 28 && !IsLeapYear(year))
         {
-            Console.Write("This month cannot have more than 30 days!");
-            Console.ReadKey();
+            isPossible = true;
+        }
+        else if ((month == 4 || month == 6 || month == 9 || month == 11) && day <= 30)
+        {
+            isPossible = true;
+        }
+        else if ((month == 4 || month == 6 || month == 9 || month == 11) && day >= 31)
+        {
             Console.Clear();
-            isPossible = false;
+            Console.WriteLine("This month cannot have more than 30 days.");
+            Console.ReadKey();
         }
         return isPossible;
     }

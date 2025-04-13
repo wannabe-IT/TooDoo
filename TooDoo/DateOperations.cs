@@ -1,23 +1,33 @@
+using System.Globalization;
 namespace TooDoo;
-
 public class DateOperations
 {
-    private Todo _todo = new Todo();
-
-    public int CalculateDaysToFinishTodo(Todo todo)
+    int hours, minutes;
+    public TimeSpan CalculateDaysToFinishTodo(Todo todo)
     {
-        if (DateTime.TryParse(todo.Date, out DateTime todoDate))
+        if (todo == null)
         {
-            // Používáme pouze datum bez času pro přesné porovnání dnů
-            DateTime todayDate = DateTime.Today;
-        
-            // Rozdíl ve dnech (todoDate - todayDate)
-            TimeSpan difference = todoDate - todayDate;
-            int daysToFinish = difference.Days;
-        
-            return daysToFinish;
+            throw new ArgumentNullException(nameof(todo), "Todo can not be null.");
         }
-        return 0;
+        if (string.IsNullOrEmpty(todo.Date))
+        {
+            return TimeSpan.Zero;
+        }
+        if (DateTime.TryParseExact(todo.Date, "d.M.yyyy", CultureInfo.InvariantCulture, 
+                DateTimeStyles.None, out DateTime todoDate))
+        {
+            if (!string.IsNullOrEmpty(todo.Hours) && int.TryParse(todo.Hours, out hours))
+            {
+                todoDate = todoDate.AddHours(hours);
+            }
+            if (!string.IsNullOrEmpty(todo.Minutes) && int.TryParse(todo.Minutes, out minutes))
+            {
+                todoDate = todoDate.AddMinutes(minutes);
+            }
+            DateTime now = DateTime.Now;
+            TimeSpan difference = todoDate - now;
+            return difference;
+        }
+        return TimeSpan.Zero;
     }
-
 }

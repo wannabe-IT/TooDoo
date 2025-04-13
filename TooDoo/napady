@@ -5,3 +5,78 @@ pridat overeni zda je prestupny rok - hotovo
 
 osetrit, aby se nedalo ukol nedal vytvorit do minulosti
 prace s kalendarem - kolik dni zbyva nebo kolik je po terminu
+
+
+# Návrh komplexní aplikace s SQL databází
+Rozumím, že hledáte komplexnější projekt s SQL databází. To je skvělý další krok ve vašem programátorském rozvoji! Zde je návrh aplikace, která by mohla být zajímavá a zároveň by vás naučila mnoho nových dovedností.
+## Systém pro správu knihovny
+### Popis projektu:
+Vytvořte aplikaci pro správu knih v knihovně s možností evidence výpůjček, čtenářů, rezervací a dalších funkcí.
+### Klíčové komponenty:
+#### 1. Databázová struktura (SQL):
+- Tabulka `Books`: id, title, author, isbn, publisher, year, category_id, available_copies, total_copies
+- Tabulka `Categories`: id, name, description
+- Tabulka `Members`: id, first_name, last_name, email, phone, address, registration_date
+- Tabulka `Loans`: id, book_id, member_id, loan_date, due_date, return_date
+- Tabulka `Reservations`: id, book_id, member_id, reservation_date, status
+
+#### 2. Funkce aplikace:
+- **Správa knih**
+    - Přidání, úprava, odstranění knih
+    - Vyhledávání podle různých kritérií (autor, název, ISBN)
+    - Import/export seznamu knih z/do CSV nebo Excel
+
+- **Správa výpůjček**
+    - Evidence vypůjčení a vrácení
+    - Automatické výpočty zpoždění a případných pokut
+    - Historie výpůjček pro konkrétního čtenáře
+
+- **Správa čtenářů**
+    - Registrace a úprava údajů
+    - Přehled aktivních výpůjček a rezervací
+    - Statistiky (nejaktivnější čtenáři, preference žánrů)
+
+- **Analytické funkce**
+    - Nejpůjčovanější knihy
+    - Analýza trendu výpůjček v čase
+    - Přehledy dle kategorií
+
+### Technologie:
+- **Backend**: C# s .NET 8
+- **Databáze**: Microsoft SQL Server nebo MySQL/MariaDB
+- **ORM**: Entity Framework Core pro práci s databází
+- **UI varianty**:
+    - Konzolová aplikace (jednodušší začátek)
+    - WPF pro desktopovou aplikaci s GUI (pokročilejší)
+    - ASP.NET Core MVC pro webovou aplikaci (nejpokročilejší)
+
+### Vývojové fáze:
+#### 1. Začátek – základní funkcionalita:
+1. Vytvořte databázové schéma a připojení pomocí Entity Framework
+2. Implementujte CRUD operace pro základní entity
+3. Vytvořte jednoduché uživatelské rozhraní pro správu knih a čtenářů
+
+#### 2. Středně pokročilá funkcionalita:
+1. Systém výpůjček a rezervací
+2. Vyhledávání a filtrování
+3. Základní reporty a statistiky
+
+#### 3. Pokročilá funkcionalita:
+1. Notifikační systém (upozornění na blížící se termín vrácení)
+2. Pokročilé statistiky a grafy
+3. Uživatelské role a oprávnění
+
+### Doporučený postup učení:
+1. **Entity Framework Core**: Naučte se základy ORM a mapování objektů na databázi
+2. **SQL**: Seznamte se s SQL dotazy, indexy a optimalizací
+3. **Repository Pattern**: Oddělení datové vrstvy od business logiky
+4. **Dependency Injection**: Pro lepší strukturu aplikace
+5. **Unit Testing**: Naučte se testovat jednotlivé části aplikace
+
+### Tipy pro realizaci:
+- Začněte malou funkční částí a postupně přidávejte další funkce
+- Používejte verzovací systém jako Git pro sledování změn
+- Rozdělte aplikaci do vrstev (Data Access, Business Logic, Presentation)
+- Používejte Async/Await pro asynchronní databázové operace
+
+Tento projekt vám poskytne skvělou příležitost naučit se SQL, práci s databází, strukturování většího projektu a mnoho dalších dovedností, které jsou velmi ceněné v praxi.

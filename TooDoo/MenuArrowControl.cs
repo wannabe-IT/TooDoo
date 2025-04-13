@@ -127,7 +127,7 @@ namespace TooDoo
             switch (mainSelectedIndex)
             {
                 case 0:
-                    ConsoleOutput.WriteReadedTodos(todosFromFile);
+                    ConsoleOutput.WriteReadTodos(todosFromFile);
                     Pause();
                     break;
                 case 1:
@@ -156,7 +156,7 @@ namespace TooDoo
                 return;
             }
 
-            ConsoleOutput.WriteReadedTodos(todosFromFile);
+            ConsoleOutput.WriteReadTodos(todosFromFile);
 
             if (todosFromFile.Count > 0)
             {
@@ -196,7 +196,7 @@ namespace TooDoo
 
         private void DeleteTask(List<Todo> todosFromFile)
         {
-            ConsoleOutput.WriteReadedTodos(todosFromFile);
+            ConsoleOutput.WriteReadTodos(todosFromFile);
 
             if (todosFromFile.Count > 0)
             {
