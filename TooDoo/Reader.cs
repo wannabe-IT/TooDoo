@@ -3,7 +3,7 @@ namespace TooDoo;
 
 public class Reader
 {
-    private Todo _todo = new Todo();
+    private Todo _todo = new();
     
 
     public int TodoLineToEdit(string pathToFile)
@@ -66,8 +66,7 @@ public class Reader
         }
     }
 
-    int hour;
-    int minute;
+    int hour, minute = 0;
     string month;
     string year;
     string date;
@@ -81,6 +80,7 @@ public class Reader
             string title = ReadTitleFromConsole();
             string description = ReadDescriptionFromConsole();
             string day = "";
+            string stringHour, stringMinute = "";
             
             
             while (!flag)
@@ -94,15 +94,14 @@ public class Reader
                     Console.Clear();
                     Console.Write("Entered TODO deadline is {0}.{1}.{2}. Let me validate this date...",
                         day, month, year);
-                    Console.ReadKey();
+                    Thread.Sleep(1500);
                     bool checkIfDateIsValid = CheckValidDate(day, month, year);
                     Console.WriteLine(checkIfDateIsValid);
-                    Console.ReadKey();
                     if (checkIfDateIsValid)
                     {
                         Console.Clear();
                         Console.Write("Correct date.");
-                        Console.ReadKey();
+                        Thread.Sleep(1500);
                         checkifDateIsValid = true;
                         Console.Clear();
                     }
@@ -111,15 +110,26 @@ public class Reader
                 while (!checkifTimeIsValid)
                 {
                     Console.Write("Write hour when you want to finish todo: ");
-                    hour = int.Parse(Console.ReadLine());
+                    string? input = Console.ReadLine();
+                    if (string.IsNullOrEmpty(input) || !int.TryParse(input, out hour))
+                    {
+                        Console.WriteLine("Please enter a valid number for hour.");
+                        continue;
+                    }
+                   
                     Console.WriteLine("Write minute when you want to finish todo: ");
-                    minute = int.Parse(Console.ReadLine());
+                    string? input2 = Console.ReadLine();
+                    if (string.IsNullOrEmpty(input2) || !int.TryParse(input2, out minute))
+                    {
+                        Console.WriteLine("Please enter a valid number for minute.");
+                        continue;
+                    }
                     if ((hour > 24 || hour < 0) || (minute > 60 || minute < 0))
                     {
                         Console.Clear();
                         Console.WriteLine("Invalid time. Please enter a valid time.");
                         checkifTimeIsValid = false;
-                        Console.ReadKey();
+                        Thread.Sleep(1500);
                         Console.Clear();
                     }
                     else
@@ -127,15 +137,34 @@ public class Reader
                         Console.Clear();
                         Console.Write("Correct time.");
                         checkifTimeIsValid = true;
-                        Console.ReadKey();
+                        Thread.Sleep(1500);
+                        Console.Clear();
                     }
                 }
                 bool dateAndTimeAreValid = checkifDateIsValid && checkifTimeIsValid;
                 if (dateAndTimeAreValid)
                 {
+                    if (hour < 10)
+                    { 
+                        stringHour = $"0{hour}";
+                    }
+                    else
+                    {
+                        stringHour = hour.ToString();
+                    }
+                    if (minute < 10)
+                    {
+                        stringMinute = $"0{minute}";
+                    }
+                    else
+                    {
+                        stringMinute = minute.ToString();
+                    }
+                    
                     date = day + "." + month + "." + year;
                     int priority = ReadPriorityFromConsole();
-                    Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date, hour.ToString(), minute.ToString());
+                    Todo newTodo = new Todo(title, description, false, priority, todos.Count + 1, date, 
+                        stringHour, stringMinute);
                     todos.Add(newTodo);
                     flag = true;
                 }
@@ -272,14 +301,14 @@ public class Reader
         {
             Console.Write("Please enter a year: ");
             bool isYear = int.TryParse(Console.ReadLine(), out year);
-            if (System.DateTime.Today.Year <=year && year < System.DateTime.Today.Year + 100)
+            if (isYear && DateTime.Today.Year <=year && year < DateTime.Today.Year + 100)
             {
                 validYear = true; 
             }
             else
             {
                 Console.WriteLine("Invalid year. You can enter only year between {0} and {1}.",
-                    currentYear, System.DateTime.Today.Year + 100);
+                    currentYear, DateTime.Today.Year + 100);
             }
         } while (!validYear);
         return year;
