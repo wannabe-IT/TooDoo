@@ -37,7 +37,8 @@ public class Editor
         Console.Write("Mark as done? (y/n)");
         todo.UpdateIsDone(Console.ReadLine().ToLower() == "y");
     }
-    public void EditDate(Todo todo) 
+
+    public void EditDate(Todo todo)
     {
         int hour, minute;
         string stringHour = "", stringMinute = "";
@@ -45,7 +46,7 @@ public class Editor
         {
             Console.Clear();
             Console.WriteLine("Current date is: {0}", todo.Date);
-            
+
             // Day input
             Console.Write("Enter day (1-31): ");
             string newDay = Console.ReadLine();
@@ -56,7 +57,7 @@ public class Editor
                 Console.ReadKey();
                 return;
             }
-            
+
             // Month input
             Console.Write("Enter month (1-12): ");
             string newMonth = Console.ReadLine();
@@ -67,7 +68,7 @@ public class Editor
                 Console.ReadKey();
                 return;
             }
-            
+
             // Year input
             Console.Write("Enter year (e.g. 2024): ");
             string newYear = Console.ReadLine();
@@ -78,9 +79,9 @@ public class Editor
                 Console.ReadKey();
                 return;
             }
-            
+
             Console.Clear();
-            Console.WriteLine("Current time is: {0}:{1}", todo.Hours, todo.Minutes );
+            Console.WriteLine("Current time is: {0}:{1}", todo.Hours, todo.Minutes);
             Console.WriteLine("Enter hour (24h): ");
             string newHour = Console.ReadLine();
             hour = int.Parse(newHour);
@@ -88,6 +89,7 @@ public class Editor
             {
                 throw new Exception("Invalid hour!");
             }
+
             Console.WriteLine("Enter minute: ");
             string newMinute = Console.ReadLine();
             minute = int.Parse(newMinute);
@@ -95,6 +97,7 @@ public class Editor
             {
                 throw new Exception("Invalid minute!");
             }
+
             // Basic date validation
             bool isValid = false;
             if (month == 2)
@@ -116,23 +119,22 @@ public class Editor
                 // Other months
                 isValid = true;
             }
-            
+
             if (isValid)
             {
                 stringHour = hour.ToString();
                 stringMinute = minute.ToString();
-                
+
                 if (hour < 10)
-                { 
+                {
                     stringHour = $"0{hour}";
                 }
-                
-                
+
                 if (minute < 10)
                 {
-                   stringMinute = $"0{minute}";
+                    stringMinute = $"0{minute}";
                 }
-                
+
                 string newDateToConsole = $"{day}.{month}.{year} - {stringHour}:{stringMinute}";
                 string newDate = $"{day}.{month}.{year}";
 
@@ -140,13 +142,13 @@ public class Editor
                 todo.UpdateDate(newDate);
                 todo.UpdateHours(stringHour);
                 todo.UpdateMinutes(stringMinute);
-                
+
             }
             else
             {
                 Console.WriteLine("Invalid date!");
             }
-            
+
             Console.ReadKey();
         }
         catch (Exception ex)
@@ -154,7 +156,5 @@ public class Editor
             Console.WriteLine($"Error entering date: {ex.Message}");
             Console.ReadKey();
         }
-}
-
-
+    }
 }

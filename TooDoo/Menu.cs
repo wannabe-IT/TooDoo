@@ -9,7 +9,7 @@ public class Menu
     private Reader _consoleInput = new();
     private Editor _consoleEditor = new();
     private Remover _todoRemover = new();
-
+    
     public void ShowMenu()
     {
         projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
@@ -44,6 +44,7 @@ public class Menu
                 case "1":
                     Console.Clear();
                     _consoleOutput.WriteReadTodos(listReadTodosFromFile);
+                    //_consoleOutput.WriteTodosIntoDB(listReadTodosFromFile);
                     Console.Write("Press any key to continue...");
                     Console.ReadKey();
                     break;

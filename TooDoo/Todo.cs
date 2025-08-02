@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 
 namespace TooDoo
 {
-
     public class Todo
     {
         public string Title { get; set; }
@@ -25,7 +24,6 @@ namespace TooDoo
             Hours = "";
             Minutes = "";
         }
-
         public Todo(string title, string description, bool isDone, int priority, int index, string date, string hours, string minutes)
         {
             Title = title;
@@ -37,12 +35,10 @@ namespace TooDoo
             Hours = hours;
             Minutes = minutes;
         }
-
         public void UpdateDate(string date)
         {
             Date = date;
         }
-
         public void UpdateTitle(string title)
         {
             if (!string.IsNullOrEmpty(title))
@@ -55,7 +51,6 @@ namespace TooDoo
                 Console.ReadKey();
             }
         }
-
         public void UpdateDescription(string description)
         {
             if (!string.IsNullOrEmpty(description))
@@ -68,7 +63,6 @@ namespace TooDoo
                 Console.ReadKey();
             }
         }
-
         public void UpdatePriority(int priority)
         {
             if (priority > 0 && priority <= 5)
@@ -81,7 +75,6 @@ namespace TooDoo
                 Console.ReadKey();
             }
         }
-
         public void UpdateIsDone(bool isDone)
         {
             IsDone = isDone;
@@ -102,13 +95,10 @@ namespace TooDoo
             Minutes = minutes;
             return Minutes;
         }
-
         public string TodoToString()
         {
             return Index + ") Title: " + Title + "\n   Description: " + Description +
                    "\n   Priority: " + Priority + "\n   Date: " + Date + "\n   Time: " + Hours + ":" + Minutes;
         }
-
-
     }
 }
