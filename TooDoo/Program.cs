@@ -1,6 +1,5 @@
 ﻿using TooDoo;
 using System;
-using Npgsql;
 class Program
 {
     static void Main(string[] args)

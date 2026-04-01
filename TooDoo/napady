@@ -80,3 +80,41 @@ Vytvořte aplikaci pro správu knih v knihovně s možností evidence výpůjče
 - Používejte Async/Await pro asynchronní databázové operace
 
 Tento projekt vám poskytne skvělou příležitost naučit se SQL, práci s databází, strukturování většího projektu a mnoho dalších dovedností, které jsou velmi ceněné v praxi.
+
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+
+  Bugy (věci, které se rozbijí)
+
+  Reader.TodosCounter — počítá řádky JSON souboru, ne todo položky. 5 todů = ~40 řádků JSONu. Index validace je proto úplně špatná.
+
+  Reader.ReadTodosFromConsole:173-174 — logika "přidat další?" nefunguje. Console.ReadKey() spotřebuje stisk klávesy a pak Console.ReadLine() přečte prázdný řádek → smyčka vždy skončí.
+
+  Reader.CheckValidDate — měsíce 1,3,5,7,8,10,12 vrací true bez ohledu na den. Den 99 v lednu projde validací.
+
+  Editor.EditTodoPriority:31 — int.Parse(Console.ReadLine()) — crash při nečíselném vstupu.
+
+  Editor.EditTodoIsDone:38 — Console.ReadLine().ToLower() — NullReferenceException pokud ReadLine vrátí null.
+
+  Menu.cs:67 — zbylý debug kód: Console.Write(indexToEdit + "indexToEdit"). /// not done
+
+  MenuArrowControl.cs:49 — používá todos.txt místo todos.json.
+
+  ---
+  Designové problémy
+
+  - Todo model volá Console.Write v UpdateTitle/Description/Priority — model by neměl vědět o UI
+  - Hours a Minutes jako string místo DateTime
+  - Index je uložený v modelu, ale stejně se přepočítává v každém loopu — není to reálná data
+  - Ukládání pouze při exitu — crash smaže vše
+  - MenuArrowControl je lepší implementace (šipky), ale nikde se nepoužívá
+  - Duplikovaná validace datumu v Reader i Editor
+
+  ---
+  Co je dobré
+
+  - Základní struktura tříd dává smysl
+  - JSON serializace funguje správně
+  - DateOperations.CalculateDaysToFinishTodo a barevné zobrazení jsou pěkné

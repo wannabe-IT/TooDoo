@@ -29,16 +29,10 @@ public class Reader
         Console.WriteLine(lineToEdit);
         return lineToEdit;
     }
+
     private int TodosCounter(string pathToFile)
-    {
-        int todosCount = 0;
-        using StreamReader reader = new StreamReader(Path.Combine(pathToFile));
-        while (reader.ReadLine() != null)
-        {
-            todosCount++;
-        }
-        _todo.UpdateIndex(todosCount);
-        return _todo.Index;
+    { 
+        return ReadTodosFromFile(pathToFile).Count;
     }
     
     public List<Todo> ReadTodosFromFile(string pathToFile)
@@ -170,7 +164,6 @@ public class Reader
                 }
             }
             Console.Write("Want to add another TODO? Y/N: ");
-            Console.ReadKey();
         } while (string.Equals(Console.ReadLine(), "y", StringComparison.OrdinalIgnoreCase));
     }
 
@@ -182,8 +175,8 @@ public class Reader
         int month = int.Parse(monthFromString);
         int year = int.Parse(yearFromString);
         
-        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8
-            || month == 10 || month == 12)
+        if ((month == 1 || month == 3 || month == 5 || month == 7 || month == 8
+            || month == 10 || month == 12) && day <= 31)
         {
             isPossible = true;
         }

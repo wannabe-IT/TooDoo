@@ -3,6 +3,7 @@ namespace TooDoo;
 public class Editor
 {
     Reader reader = new Reader();
+    int newPriority;
 
     public void EditTodoTitle(Todo todo)
     {
@@ -24,21 +25,43 @@ public class Editor
     }
     public void EditTodoPriority(Todo todo)
     {
-        int newPriority;
-        Console.Clear();
-        Console.WriteLine("Current priority is: {0}", todo.Priority);
-        Console.Write("Enter new priority: ");
-        newPriority = int.Parse(Console.ReadLine());
-        todo.UpdatePriority(newPriority);
-    }
-    public void EditTodoIsDone(Todo todo)
-    {
-        Console.Clear();
-        Console.Write("Mark as done? (y/n)");
-        todo.UpdateIsDone(Console.ReadLine().ToLower() == "y");
+        bool newPrio = true;
+        while (newPrio)
+        {
+            Console.Clear();
+            Console.WriteLine("Current priority is: {0}", todo.Priority);
+            Console.Write("Enter new priority: ");
+            int.TryParse(Console.ReadLine(), out newPriority);
+            
+            if ( newPriority >= 1 && newPriority <= 5)
+            {
+                todo.UpdatePriority(newPriority);
+                newPrio = false;
+            }
+            else
+            {
+                Console.WriteLine("Invalid priority. Must be between 1 and 5.");
+            }
+        }
     }
 
-    public void EditDate(Todo todo)
+    public void EditTodoIsDone(Todo todo)
+    {
+        string isDone;
+        Console.Clear();
+        Console.Write("Mark as done? (y/n): ");
+        isDone = Console.ReadLine();
+
+        if (isDone != null)
+        {
+            if (isDone == "y")
+            {
+                todo.UpdateIsDone(isDone == "y");
+            }
+        }
+    }
+
+    public void EditDate(Todo todo)    
     {
         int hour, minute;
         string stringHour = "", stringMinute = "";

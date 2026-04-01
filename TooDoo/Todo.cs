@@ -24,7 +24,8 @@ namespace TooDoo
             Hours = "";
             Minutes = "";
         }
-        public Todo(string title, string description, bool isDone, int priority, int index, string date, string hours, string minutes)
+        public Todo(string title, string description, bool isDone, int priority, int index, 
+            string date, string hours, string minutes)
         {
             Title = title;
             Description = description;
