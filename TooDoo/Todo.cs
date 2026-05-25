@@ -12,6 +12,7 @@ namespace TooDoo
         public string Date { get; set; }
         public string Hours { get; set; }
         public string Minutes { get; set; }
+        public DateTime DateTime{ get; set; }
 
         public Todo() 
         {
@@ -23,6 +24,7 @@ namespace TooDoo
             Date = "";
             Hours = "";
             Minutes = "";
+            DateTime = DateTime.Now;
         }
         public Todo(string title, string description, bool isDone, int priority, int index, 
             string date, string hours, string minutes)

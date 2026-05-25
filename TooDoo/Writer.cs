@@ -9,7 +9,7 @@ public class Writer
     
         if (todos.Count == 0)
         {
-            Console.WriteLine("Any todo added yet!");
+            Console.WriteLine("No todos found.");
         }
         else
         {
@@ -24,6 +24,8 @@ public class Writer
                     Console.WriteLine(todo.TodoToString());
                     string timeLeftStr = FormatTimeSpan(timeLeft);
                     Console.WriteLine($"   {timeLeftStr} left");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    
                 }
                 else if (timeLeft.TotalMinutes < 0)
                 {
@@ -32,6 +34,7 @@ public class Writer
                     TimeSpan overdue = timeLeft.Duration();
                     string overdueStr = FormatTimeSpan(overdue);
                     Console.WriteLine($"   {overdueStr} past due");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else
                 {
