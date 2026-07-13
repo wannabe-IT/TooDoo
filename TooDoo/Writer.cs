@@ -82,12 +82,4 @@ public class Writer
         string jsonString = JsonSerializer.Serialize(todos, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(pathToFile, jsonString);
     }
-    
-    public void CreateTodoFile(string pathToFile)
-    {
-        if (!File.Exists(pathToFile))
-        {
-            File.WriteAllText(pathToFile, "[]");
-        }
-    }
 }

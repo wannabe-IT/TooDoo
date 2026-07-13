@@ -1,0 +1,49 @@
+﻿Prošel jsem všechny soubory projektu (Program.cs, Todo.cs, Menu.cs, Editor.cs, Reader.cs, Remover.cs, Writer.cs, DateOperations.cs). Mimochodem, v projektu už existuje soubor bugy.txt se starším rozborem – některé jeho body (např. o Directory.GetParent nebo zapomenutém debug výpisu v Menu.cs) už v kódu nejsou, takže je zjevně z dřívější verze. Níže je aktuální seznam podle skutečného stavu kódu.
+
+Menu.cs
+
+- Nesoulad mezi pamětí a souborem na disku – změny (přidání, úprava, mazání úkolů) se dějí jen v seznamu listReadTodosFromFile v paměti. Na disk se vše zapíše až při volbě „5. Exit“. Pokud program spadne nebo ho někdo zavře křížkem, o práci přijdete.
+- TodoLineToEdit počítá rozsah z jiného zdroje než ze kterého se pak vybírá – kontrola „zadej číslo 1 až X“ čte aktuální počet úkolů ze souboru na disku, ale samotný výběr (listReadTodosFromFile[indexToEdit - 1]) se dělá nad seznamem v paměti. Když v rámci jedné session přidáte/smažete úkol, tato dvě čísla se rozejdou → riziko pádu nebo špatně vybraného úkolu.
+- Case „3“ a „4“ jsou skoro identické – obě větve dělají to samé (vypsat úkoly, ověřit, že seznam není prázdný, načíst index). Je dobré si všimnout, že se to dá sloučit do jedné metody – zatím to jen zvyšuje riziko, že při opravě chyby na jednom místě zapomenete opravit i to druhé.
+- editChoice může být null – Console.ReadLine() může vrátit null, ale proměnná je typovaná jako obyčejný string. Protože je v projektu zapnuté Nullable enable (viz .csproj), kompilátor by na tohle měl hlásit varování – stojí za to si varování v Rideru všímat, ne je ignorovat.
+
+Reader.cs
+
+- Pole třídy místo lokálních proměnných (hour, minute, month, year, date) – tyto hodnoty patří jen do jedné metody, ne do celé třídy. Nebezpečí je, že při zadávání více úkolů za sebou v cyklu si metoda „pamatuje“ hodnotu z předchozího běhu, což je matoucí a těžko se v tom hledá chyba.
+- int hour, minute = 0; – vypadá to, že se inicializují obě proměnné, ale ve skutečnosti se = 0 váže jen k minute. I když to funkčně nevadí (pole mají výchozí hodnotu 0), je to zápis, který svádí ke špatnému čtení kódu.
+- Chybná hranice u validace času – hour > 24 by mělo být hour >= 24 (platné hodiny jsou 0–23, číslo 24 neexistuje) a minute > 60 by mělo být minute >= 60 (platné minuty jsou 0–59). Aktuálně jde zadat neplatný čas 24:60.
+- Nevyužité výsledky TryParse – isDay, isMonth se sice počítají, ale nekontrolují se. Funguje to jen náhodou, protože nečíselný vstup dá day/month rovné 0, což padne do „mimo rozsah“. Je to křehké – spoléhá se na vedlejší efekt, ne na explicitní kontrolu.
+- Nepoužité pole _todo – vytvoří se instance Todo, která se nikde nepoužije.
+- Míchání češtiny a angličtiny v hláškách („Soubor not found!“, „Chyba při čtení souboru“ vs. zbytek anglicky) – nejde o chybu programu, ale o nekonzistenci, která ztěžuje orientaci.
+- Opakované čtení souboru z disku – TodoLineToEdit volá TodosCounter, která pokaždé znovu čte a deserializuje celý soubor, a to i vícekrát v jedné smyčce. Zbytečně to zatěžuje disk a souvisí to s bodem výše o nesouladu paměť/soubor.
+
+Editor.cs
+
+- Console.ReadLine() přiřazené do „ne-nullable“ proměnných (newTitle, newDescription, newDay atd.) – stejný typ problému jako v Menu.cs, čtení může vrátit null a proměnná to nedává najevo.
+- int.Parse místo TryParse v EditDate – při zadání nečíselného vstupu to vyhodí výjimku. Je to sice zachyceno v try/catch, ale uživatel dostane obecnou chybovou hlášku a je vyhozen z editace, místo aby dostal šanci to zadat znovu.
+- Jiná pravidla pro rok na dvou místech – v Editor.EditDate je povolený rozsah 2000–2100, ale v Reader.ReadYearFromConsole je to aktuální rok až +100 let. Stejná věc (platnost roku) je definovaná dvakrát jinak – nebezpečné, protože se to dá časem rozejít ještě víc.
+- Validace data je naprogramovaná dvakrát – jednou v Reader.CheckValidDate, podruhé přímo v Editor.EditDate. Když časem opravíte chybu v jedné z nich, snadno zapomenete na tu druhou.
+- Tichá chyba u označení „hotovo“ – pokud uživatel v EditTodoIsDone napíše cokoliv jiného než přesně "y" (třeba "Y", "yes", překlep), nic se nestane a uživatel se nedozví, že se úkol neoznačil.
+
+Todo.cs
+
+- Parametrický konstruktor nenastavuje DateTime – bezparametrický konstruktor nastaví DateTime = DateTime.Now, ale ten s parametry na to zapomíná, takže zůstane výchozí datum 1.1.0001. Vlastnost se sice jinde nepoužívá, ale je to nekonzistence, která může later překvapit.
+- UpdateHours/UpdateMinutes nemají žádnou validaci – na rozdíl od UpdateTitle, UpdateDescription nebo UpdatePriority, které kontrolují vstup, tyto dvě metody přijmou cokoliv.
+
+Writer.cs
+
+- Zavádějící název WriteUpdatedIndexes – nic nezapisuje na výstup ani do souboru, jen si v paměti přepočítá čísla úkolů. Název ve stylu ostatních Write* metod (které opravdu něco vypisují/ukládají) může splést.
+- Větev „Due today“ je prakticky nedosažitelná – porovnává se přesně TotalMinutes == 0, což při aktuálním čase téměř nikdy nenastane (musel by uplynout čas na sekundu/milisekundu přesně).
+- Stav „hotovo“ (IsDone) se nikde nevypisuje – úkol jde označit jako hotový, ale v seznamu úkolů to nikde nevidíte.
+- CreateTodoFile se nikde nevolá – je to mrtvý kód, soubor se reálně vytváří jinde (Menu.checkDependecies).
+
+DateOperations.cs
+
+- hours, minutes jako pole třídy – stejný vzorec jako v Reader.cs: stav, který patří jen do jedné metody, je uložený na úrovni celé třídy.
+- Tichý návrat TimeSpan.Zero při chybě parsování data – pokud se datum nepovede přečíst, vrátí se nula, kterou Writer následně vyhodnotí jako „úkol je na dnešek“. Tím se skutečná chyba (špatně uložené datum) schová za normální hlášku.
+
+Obecné postřehy (napříč projektem)
+
+- Třídy dělají víc, než jejich název napovídá – Reader a Writer kromě čtení/zápisu obsahují i validaci a byznys logiku. Pro začátek je to v pořádku, ale až se v tom budete chtít lépe orientovat, stojí za zvážení tyto odpovědnosti rozdělit.
+- Nullable reference types jsou v projektu zapnuté (<Nullable>enable</Nullable> v .csproj) – to znamená, že spousta výše zmíněných „může vrátit null“ míst by se měla objevit jako varování přímo v Straně s buildy v Rideru. Doporučuji si těch varování začít všímat, hodně z nich přesně ukazuje na popsaná místa.
+- Mix češtiny a angličtiny v textech pro uživatele – nefunkční chyba to není, ale stojí za sjednocení.

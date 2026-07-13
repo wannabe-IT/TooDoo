@@ -39,7 +39,7 @@ public class Reader
     {
         if (!File.Exists(pathToFile))
         {
-            Console.WriteLine("Soubor not found!");
+            Console.WriteLine("File not found!");
             return new List<Todo>();
         }
 

@@ -1,13 +1,14 @@
 [
   {
     "Title": "Uklid pokoje",
-    "Description": "uklidit pokoj pred navstevou",
+    "Description": "uklidit pokoj",
     "IsDone": false,
     "Priority": 1,
     "Index": 1,
     "Date": "22.11.2024",
     "Hours": "21",
-    "Minutes": "00"
+    "Minutes": "00",
+    "DateTime": "2026-07-12T13:56:38.5041254+02:00"
   },
   {
     "Title": "33",
@@ -17,7 +18,8 @@
     "Index": 2,
     "Date": "10.7.2025",
     "Hours": "09",
-    "Minutes": "30"
+    "Minutes": "30",
+    "DateTime": "2026-07-12T13:56:38.5090435+02:00"
   },
   {
     "Title": "222",
@@ -27,7 +29,8 @@
     "Index": 3,
     "Date": "1.1.2026",
     "Hours": "10",
-    "Minutes": "10"
+    "Minutes": "10",
+    "DateTime": "2026-07-12T13:56:38.5091053+02:00"
   },
   {
     "Title": "222",
@@ -37,7 +40,8 @@
     "Index": 4,
     "Date": "30.3.2024",
     "Hours": "15",
-    "Minutes": "30"
+    "Minutes": "30",
+    "DateTime": "2026-07-12T13:56:38.5091149+02:00"
   },
   {
     "Title": "aaaassssaaa",
@@ -47,6 +51,7 @@
     "Index": 5,
     "Date": "14.4.2026",
     "Hours": "01",
-    "Minutes": "44"
+    "Minutes": "44",
+    "DateTime": "2026-07-12T13:56:38.5091231+02:00"
   }
 ]
